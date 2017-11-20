@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#6E94E2 </color>
+    <color name="colorPrimaryDark">#7091D7 </color>
+    <color name="colorAccent">#DCDFE9 </color>
+
+    <!--<color name="colorPrimary">#125688</color>-->
+    <!--<color name="colorPrimaryDark">#125688</color>-->
+    <color name="textColorPrimary">#D9DADB </color>
+    <color name="windowBackground">#FAFAFA </color>
+    <color name="navigationBarColor">#392E4C </color>
+    <!--<color name="colorAccent">#c8e8ff</color>-->
+
+    <color name="profile_name">#FAFAFA </color>
+    <color name="department_name">#c8e8ff </color>
+
+
+
+    <color name="primaryColor">#fafafa</color>
+    <color name="primaryLightColor">#ffffff</color>
+    <color name="primaryDarkColor">#c7c7c7</color>
+    <color name="primaryTextColor">#000000</color>
+
+
+
+</resources>

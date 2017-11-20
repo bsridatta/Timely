@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Edit Profile"
+        android:id="@+id/editProfile"
+        app:showAsAction="always|withText"
+        android:icon="@drawable/ic_edit" />
+
+    <item android:title="Change Image"
+        android:icon="@drawable/ic_photo_camera"
+        app:showAsAction="always|withText"
+        android:id="@+id/changeImage" />
+
+
+
+</menu>

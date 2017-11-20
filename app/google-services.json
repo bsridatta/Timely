@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "508234296427",
+    "firebase_url": "https://timely-508d7.firebaseio.com",
+    "project_id": "timely-508d7",
+    "storage_bucket": "timely-508d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508234296427:android:0a35811230ab5a2e",
+        "android_client_info": {
+          "package_name": "com.example.sridatta.timely"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508234296427-17pnstnvg0racfc6j94abav9hrjp2su9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sridatta.timely",
+            "certificate_hash": "3be48bb3db7de5fd55d4589ff9e803966083197e"
+          }
+        },
+        {
+          "client_id": "508234296427-58hbkjnbnb4gb7sojj4q9eu4uguiq5ju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeiRqh2NWkTquKjlYwxrebuEgpUxS6L8M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508234296427-58hbkjnbnb4gb7sojj4q9eu4uguiq5ju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
