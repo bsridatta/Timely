@@ -24,7 +24,6 @@
                 android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity android:name=".Profiler" />
-        <activity android:name=".BattleGround" />
         <activity android:name=".Portal"></activity>
     </application>
 

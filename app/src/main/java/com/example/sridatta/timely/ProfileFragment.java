@@ -37,9 +37,7 @@ public class ProfileFragment extends Fragment{
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
 
 
-        userID=getActivity().getIntent().getExtras().getString("userID");
-        tv=(TextView) view.findViewById(R.id.tv_userId);
-        tv.setText(userID);
+
 
 
 
