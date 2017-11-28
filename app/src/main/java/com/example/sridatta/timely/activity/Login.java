@@ -1,4 +1,4 @@
-package com.example.sridatta.timely;
+package com.example.sridatta.timely.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sridatta.timely.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

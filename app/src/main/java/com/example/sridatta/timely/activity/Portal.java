@@ -1,4 +1,4 @@
-package com.example.sridatta.timely;
+package com.example.sridatta.timely.activity;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.example.sridatta.timely.fragment_profiler.FavoritesFragment;
+import com.example.sridatta.timely.fragment_profiler.ProfileFragment;
+import com.example.sridatta.timely.R;
+import com.example.sridatta.timely.fragment_profiler.RepresentativesFragment;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -113,7 +116,7 @@ public class Portal extends AppCompatActivity {
     //setting up the pager view under each tabs and naming the tabs
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new ProfileFragment(), "schedule");
+        adapter.addFrag(new ProfileFragment(), "Schedule");
         adapter.addFrag(new FavoritesFragment(), "requests");
         adapter.addFrag(new RepresentativesFragment(), "reps");
         viewPager.setAdapter(adapter);

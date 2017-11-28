@@ -1,4 +1,4 @@
-package com.example.sridatta.timely;
+package com.example.sridatta.timely.fragment_profiler;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sridatta.timely.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,12 +36,6 @@ public class ProfileFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
-
-
-
-
-
-
 
         return view;
     }

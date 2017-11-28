@@ -1,4 +1,4 @@
-package com.example.sridatta.timely;
+package com.example.sridatta.timely.objects;
 
 import android.app.Application;
 

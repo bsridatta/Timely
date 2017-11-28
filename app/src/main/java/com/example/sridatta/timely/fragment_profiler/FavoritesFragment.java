@@ -1,4 +1,4 @@
-package com.example.sridatta.timely;
+package com.example.sridatta.timely.fragment_profiler;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.sridatta.timely.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -32,7 +33,7 @@ public class FavoritesFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getActivity(),"Hello Javatpoint",Toast.LENGTH_SHORT);
+        Toast.makeText(getActivity(),"Hello",Toast.LENGTH_SHORT);
 
     }
 

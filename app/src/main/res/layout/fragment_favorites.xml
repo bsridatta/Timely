@@ -2,6 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sridatta.timely.FavoritesFragment">
+    tools:context="com.example.sridatta.timely.fragment_profiler.FavoritesFragment">
 
 </RelativeLayout>

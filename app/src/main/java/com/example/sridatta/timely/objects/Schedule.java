@@ -1,10 +1,10 @@
-package com.example.sridatta.timely;
+package com.example.sridatta.timely.objects;
 
 /**
  * Created by sridatta on 17-09-2017.
  */
 
-public class schedule {
+public class Schedule {
 
     private String courseId;
     private String courseName;
@@ -13,12 +13,12 @@ public class schedule {
     private String helpingFaculty;
 
     //default constructor
-    public schedule(){
+    public Schedule(){
 
     }
 
     //parametrized constructor
-    public schedule(String courseId, String courseName, String className, String classRoom, String helpingFaculty) {
+    public Schedule(String courseId, String courseName, String className, String classRoom, String helpingFaculty) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.className = className;
