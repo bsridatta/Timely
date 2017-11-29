@@ -3,7 +3,7 @@ package com.example.sridatta.timely.objects;
 import android.app.Application;
 
 import com.firebase.client.Firebase;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Created by sridatta on 17-09-2017.
