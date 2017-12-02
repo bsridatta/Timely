@@ -1,13 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sridatta.timely.fragment_portal.TimetableFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:padding="16dp"
+    tools:context="com.example.sridatta.timely.activity.RecyclerViewFirestore">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_timetable"
+        android:id="@+id/friend_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:divider="#00000000"/>
+
 </android.support.constraint.ConstraintLayout>
