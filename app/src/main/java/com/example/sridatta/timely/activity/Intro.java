@@ -1,5 +1,6 @@
 package com.example.sridatta.timely.activity;
 
+import android.content.res.Resources;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,19 +44,39 @@ public class Intro extends AppCompatActivity implements AdapterView.OnItemSelect
         spDepartment.setOnItemSelectedListener(this);
         spDesignation.setOnItemSelectedListener(this);
 
-        //spinner elements
-//        //department
-//        Resource res=getResources()
-//        ArrayList deptList= res.get;
-//        ArrayAdapter<String> adapterDepartment = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_spinner_item,);
+        //spinner elements department and designation
+        //creating adapters for the spinner
 
+        Resources res = getResources();
+        String[] departmentList = res.getStringArray(R.array.DepartmentArray);
+        String[] designationList = res.getStringArray(R.array.DesignationArray);
+
+        ArrayAdapter<String> adapterDepartment = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item,departmentList);
+
+        ArrayAdapter<String> adapterDesignation = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item,designationList);
+
+        // Drop down layout style - list view with radio button
+        adapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterDesignation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spDesignation.setAdapter(adapterDesignation);
+        spDepartment.setAdapter(adapterDepartment);
     }
 
 
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        // On selecting a spinner item
+        String item = adapterView.getItemAtPosition(i).toString();
+
+        // Showing selected spinner item
+        Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
 
     }
 
