@@ -28,29 +28,29 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:textAlignment="viewStart"
                 android:textSize="20sp"
-                tools:text="Nur Rohman" />
+                tools:text="Sri Datta" />
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/tv_designation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:textAlignment="viewStart"
-                tools:text="Android Engineer" />
+                tools:text="Researcher" />
 
             <TextView
-                android:id="@+id/company"
+                android:id="@+id/tv_requestPeriod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:textAlignment="viewStart"
-                tools:text="Dicoding" />
+                tools:text="CSE-A M1-4" />
 
         </LinearLayout>
 

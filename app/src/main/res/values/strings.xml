@@ -4,6 +4,22 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string-array name = "DepartmentArray">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>Item 4</item>
+        <item>Item 5</item>
+    </string-array>
+
+    <string-array name = "DesignationArray">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>Item 4</item>
+        <item>Item 5</item>
+    </string-array>
+
 
 </resources>
 

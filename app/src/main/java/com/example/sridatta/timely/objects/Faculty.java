@@ -33,6 +33,16 @@ public class Faculty {
 
     }
 
+    public Faculty(String firstName, String lastName, String department, String phoneNumber, String emailID, String designation) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.phoneNumber = phoneNumber;
+        this.emailID = emailID;
+        this.designation = designation;
+    }
+
+
     public Faculty(String firstName, String lastName, String department, String phoneNumber, String emailID, String designation, String additionalResponsibility, String photoURL, lectureSlot[][]  lectureSlot) {
         this.firstName = firstName;
         this.lastName = lastName;
