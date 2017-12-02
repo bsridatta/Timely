@@ -78,7 +78,7 @@ public class RecyclerViewFirestore extends AppCompatActivity {
             @Override
             public FriendsHolder onCreateViewHolder(ViewGroup group, int i) {
                 View view = LayoutInflater.from(group.getContext())
-                        .inflate(R.layout.list_item, group, false);
+                        .inflate(R.layout.card_list_item, group, false);
 
                 return new FriendsHolder(view);
             }
@@ -100,7 +100,7 @@ public class RecyclerViewFirestore extends AppCompatActivity {
         CircleImageView imageView;
         @BindView(R.id.title)
         TextView textTitle;
-        @BindView(R.id.company)
+        //@BindView(R.id.company)
         TextView textCompany;
 
         public FriendsHolder(View itemView) {
