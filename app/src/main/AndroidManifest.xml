@@ -12,14 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-        <activity android:name=".activity.Intro">
+        <activity android:name=".activity.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- To support below API Level 14 -->
+            <!-- To support below APILevel 14 -->
             <meta-data
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
@@ -27,7 +27,7 @@
         <activity android:name=".activity.Profiler" />
         <activity android:name=".activity.Portal" />
         <activity android:name=".activity.RecyclerViewFirestore" />
-        <activity android:name=".activity.Login"></activity>
+
     </application>
 
 </manifest>
