@@ -110,6 +110,13 @@ public class Profiler extends AppCompatActivity {
 
             case R.id.action_item_more:
                 //do something
+
+
+                break;
+
+            case R.id.signOut:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this,Login.class));
                 break;
 
             case android.R.id.home:
@@ -117,6 +124,8 @@ public class Profiler extends AppCompatActivity {
                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homeIntent);
                 break;
+
+
         }
 
         return super.onOptionsItemSelected(item);

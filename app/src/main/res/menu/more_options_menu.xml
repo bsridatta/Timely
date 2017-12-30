@@ -11,6 +11,9 @@
         app:showAsAction="always|withText"
         android:id="@+id/changeImage" />
 
-
+    <item android:title="Sign Out"
+        android:icon="@drawable/ic_do_not_disturb_alt"
+        app:showAsAction="always|withText"
+        android:id="@+id/signOut" />
 
 </menu>

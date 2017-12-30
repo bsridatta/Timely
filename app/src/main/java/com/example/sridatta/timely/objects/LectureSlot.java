@@ -4,7 +4,10 @@ package com.example.sridatta.timely.objects;
  * Created by sridatta on 28-11-2017.
  */
 
-public class lectureSlot {
+public class LectureSlot {
+
+    private String day ="Mon";
+    private String hour="1";
 
     private String courseCode;
 
@@ -22,7 +25,7 @@ public class lectureSlot {
 
     private String assistingFaculty;
 
-    public lectureSlot() {
+    public LectureSlot() {
 
         this.courseCode = "15CSE000";
         this.courseName = "Course Name";
@@ -38,7 +41,27 @@ public class lectureSlot {
 
     }
 
-    public lectureSlot(String courseCode, String courseName, String degree, String department, String semester, String section, String block, String floor, String roomNo, String assistingFaculty) {
+
+    public LectureSlot(String day,String hour) {
+
+        this.day=day;
+        this.hour=hour;
+
+        this.courseCode = "15CSE000";
+        this.courseName = "Course Name";
+        this.degree = "B.Tech";
+        this.department = "CSE";
+        this.semester = "0";
+        this.section = "O";
+        this.block = "AB3";
+        this.floor = "0";
+        this.roomNo = "A000";
+        this.assistingFaculty = "Assisting Faculty";
+
+
+    }
+
+    public LectureSlot(String courseCode, String courseName, String degree, String department, String semester, String section, String block, String floor, String roomNo, String assistingFaculty) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.degree = degree;
@@ -130,4 +153,23 @@ public class lectureSlot {
     public void setAssistingFaculty(String assistingFaculty) {
         this.assistingFaculty = assistingFaculty;
     }
+
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+
 }
