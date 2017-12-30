@@ -59,10 +59,34 @@ public class TimetableFragment extends Fragment {
     private ArrayList<LectureSlot> getData() {
         final ArrayList<LectureSlot> lectures = new ArrayList<>();
 
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < 6; i++) {
             for(int j=1;j<8;j++){
 
                 String a=Integer.toString(i);
+
+                switch(i){
+                    case 1:
+                        a= "Mon";
+                        break;
+                    case 2:
+                        a= "Tue";
+                        break;
+                    case 3:
+                        a= "Wed";
+                        break;
+                    case 4:
+                        a= "Thr";
+                        break;
+                    case 5:
+                        a= "Fri";
+                        break;
+                    default:
+                        a=Integer.toString(i);
+                        break;
+
+                }
+
+//                String a=Integer.toString(i);
                 String b=Integer.toString(j);
                 lectures.add(new LectureSlot(a,b));
             }
