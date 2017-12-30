@@ -32,6 +32,7 @@ public class Portal extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +66,16 @@ public class Portal extends AppCompatActivity {
 
         //function to set icons
         setupTabIcons();
+
+
+
+
         //firestore
         // Access a Cloud Firestore instance from your Activity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+
 
 
 
@@ -113,9 +121,11 @@ public class Portal extends AppCompatActivity {
                 startActivity(new Intent(this,Login.class));
                 break;
 
+
             case android.R.id.home:
                 Intent homeIntent = new Intent(this, Profiler.class);
                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //all old activities are finished with the above flag set
                 startActivity(homeIntent);
                 break;
         }

@@ -62,13 +62,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     private String department;
     private String designation;
 
-    private int flagLogin=0;
+    //to know if user is added to database.. coz just login is no enough to start with the app
     private int flagUser=0;
-    private int flagTimetable=0;
-
-
-    HashMap<String, String> day ;
-    HashMap<String, String> hour ;
 
 
     @Override
@@ -133,10 +128,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 signUp();
 
                 //add new faculty object with the data
-
-
-
-
                 //take to next layer of the app
             }
         });
@@ -147,61 +138,23 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
-                if(firebaseAuth.getCurrentUser()!=null){
+                if(firebaseAuth.getCurrentUser()!=null ){
 
                     String userID = firebaseAuth.getCurrentUser().getUid();
 
-                    flagLogin=1;
                     startActivity(new Intent(Register.this,Portal.class).putExtra("userID",userID));
-                    goToNextActivity(userID);
 
                 }
 
-                else{
-                    flagLogin=0;
-                }
             }
         };
 
 
-        // hashmap declarations for timetable
-        day = new HashMap<>();
-        hour = new HashMap<>();
 
 
-        // Adding values to HashMap as ("keys", "values")
-        day.put("1", "Mon");
-        day.put("2", "Tue");
-        day.put("3", "Wed");
-        day.put("4", "Thu");
-        day.put("5", "Fri");
-        day.put("6", "Sat");
-        day.put("7", "Sun");
-
-        hour.put("1", "1");
-        hour.put("2", "2");
-        hour.put("3", "3");
-        hour.put("4", "4");
-        hour.put("5", "5");
-        hour.put("6", "6");
-        hour.put("7", "Ext");
     }
 
 
-    private void goToNextActivity(String userID) {
-
-        if(flagTimetable==49 && flagUser==1) {
-            startActivity(new Intent(Register.this, Portal.class).putExtra("userID", userID));
-        }
-        else{
-
-            Toast.makeText(Register.this,"Data not completely uploaded to cloud",Toast.LENGTH_SHORT).show();
-
-
-        }
-    }
-
-    //auth
 
     @Override
     public void onStart() {
@@ -252,8 +205,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
 
                         Toast.makeText(Register.this,"Registered",Toast.LENGTH_SHORT).show();
                         addNewUser();
-//                        addTimeTable();
-
 
                     }
                 }
@@ -274,61 +225,26 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Toast.makeText(Register.this,"Faculty DocumentSnapshot successfully written!",Toast.LENGTH_SHORT).show();
+
                         Log.d(TAG, "Faculty DocumentSnapshot successfully written!");
                         flagUser=1;
-
 
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(Register.this,"Error writing document..try again",Toast.LENGTH_SHORT).show();
+
                         Log.w(TAG, "Error writing document", e);
                         flagUser=0;
-
                     }
                 });
     }
 
-    private void addTimeTable() {
 
-        String userID = mAuth.getCurrentUser().getUid();
-
-        flagTimetable=0;
-        for(int i=1;i<8;i++) {
-            for(int j=1;j<8;j++) {
-                LectureSlot lectureSlot =new LectureSlot();
-
-                String a=Integer.toString(i);
-                String b=Integer.toString(j);
-
-                        //push with custom id
-                String collectionName = day.get(a)+" "+hour.get(a);
-
-                Log.d(TAG, day.get(a)+hour.get(a));
-
-
-                db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName)
-                        .set(lectureSlot)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "Time Table DocumentSnapshot written with ID: ");
-                                flagTimetable=flagTimetable+1;
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error writing document", e);
-                            }
-                        });
-
-            }
-        }
-
-        goToNextActivity(userID);
-    }
 
     //loading animation
     public void startLoad(){
@@ -355,6 +271,86 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
 
     }
 
+
+    //extra code
+
+    //got to next activity
+
+
+//    private void goToNextActivity(String userID) {
+//
+//        if(flagTimetable==49 && flagUser==1) {
+//            startActivity(new Intent(Register.this, Portal.class).putExtra("userID", userID));
+//        }
+//        else{
+//
+//            Toast.makeText(Register.this,"Data not completely uploaded to cloud",Toast.LENGTH_SHORT).show();
+//
+//
+//        }
+//    }
+
+    //auth
+
+    //addtimetable
+
+
+//    private void addTimeTable() {
+//
+//        String userID = mAuth.getCurrentUser().getUid();
+//
+//        flagTimetable=0;
+//        for(int i=1;i<8;i++) {
+//            for(int j=1;j<8;j++) {
+//                LectureSlot lectureSlot =new LectureSlot();
+//
+//                String a=Integer.toString(i);
+//                String b=Integer.toString(j);
+//
+//                        //push with custom id
+//                String collectionName = day.get(a)+" "+hour.get(a);
+//
+//                Log.d(TAG, day.get(a)+hour.get(a));
+//
+//
+//                db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName)
+//                        .set(lectureSlot)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                Log.d(TAG, "Time Table DocumentSnapshot written with ID: ");
+//                                flagTimetable=flagTimetable+1;
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.w(TAG, "Error writing document", e);
+//                            }
+//                        });
+//
+//            }
+//        }
+//
+//        goToNextActivity(userID);
+//    }
+
+//    // Adding values to HashMap as ("keys", "values")
+//        day.put("1", "Mon");
+//        day.put("2", "Tue");
+//        day.put("3", "Wed");
+//        day.put("4", "Thu");
+//        day.put("5", "Fri");
+//        day.put("6", "Sat");
+//        day.put("7", "Sun");
+//
+//        hour.put("1", "1");
+//        hour.put("2", "2");
+//        hour.put("3", "3");
+//        hour.put("4", "4");
+//        hour.put("5", "5");
+//        hour.put("6", "6");
+//        hour.put("7", "Ext");
 }
 
 
