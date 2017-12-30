@@ -67,16 +67,10 @@ public class Portal extends AppCompatActivity {
         //function to set icons
         setupTabIcons();
 
-
-
-
         //firestore
         // Access a Cloud Firestore instance from your Activity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-
-
+        userID=FirebaseAuth.getInstance().getUid();
 
 
     }
@@ -124,8 +118,6 @@ public class Portal extends AppCompatActivity {
 
             case android.R.id.home:
                 Intent homeIntent = new Intent(this, Profiler.class);
-                homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //all old activities are finished with the above flag set
                 startActivity(homeIntent);
                 break;
         }
@@ -179,6 +171,12 @@ public class Portal extends AppCompatActivity {
             //     return mFragmentTitleList.get(position);
                   return null;
         }
+    }
+
+    public void onBackPressed() {
+        //  super.onBackPressed();
+        moveTaskToBack(true);
+
     }
 
 }

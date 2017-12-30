@@ -62,9 +62,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     private String department;
     private String designation;
 
-    //to know if user is added to database.. coz just login is no enough to start with the app
-    private int flagUser=0;
-
+    private HashMap<String, String> day;
+    private HashMap<String, String> hour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +131,27 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
             }
         });
 
+
+        day = new HashMap<String, String>();
+        hour = new HashMap<String, String>();
+        // Adding values to HashMap as ("keys", "values")
+        day.put("1", "Mon");
+        day.put("2", "Tue");
+        day.put("3", "Wed");
+        day.put("4", "Thu");
+        day.put("5", "Fri");
+        day.put("6", "Sat");
+        day.put("7", "Sun");
+
+        hour.put("1", "1");
+        hour.put("2", "2");
+        hour.put("3", "3");
+        hour.put("4", "4");
+        hour.put("5", "5");
+        hour.put("6", "6");
+        hour.put("7", "Ext");
+
+
         //auth
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -141,8 +161,9 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 if(firebaseAuth.getCurrentUser()!=null ){
 
                     String userID = firebaseAuth.getCurrentUser().getUid();
+                    addNewUser();
 
-                    startActivity(new Intent(Register.this,Portal.class).putExtra("userID",userID));
+
 
                 }
 
@@ -204,7 +225,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                     else{
 
                         Toast.makeText(Register.this,"Registered",Toast.LENGTH_SHORT).show();
-                        addNewUser();
 
                     }
                 }
@@ -228,7 +248,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                         Toast.makeText(Register.this,"Faculty DocumentSnapshot successfully written!",Toast.LENGTH_SHORT).show();
 
                         Log.d(TAG, "Faculty DocumentSnapshot successfully written!");
-                        flagUser=1;
+                        addTimeTable();
 
                     }
                 })
@@ -239,11 +259,66 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                         Toast.makeText(Register.this,"Error writing document..try again",Toast.LENGTH_SHORT).show();
 
                         Log.w(TAG, "Error writing document", e);
-                        flagUser=0;
                     }
                 });
     }
 
+
+    //addtimetable
+
+
+    private void addTimeTable() {
+
+        String userID = mAuth.getCurrentUser().getUid();
+
+        final int[] counter = {0};
+        for (int i = 1; i < 6; i++) {
+            for (int j = 1; j < 8; j++) {
+                if(i*j==35){
+                    Log.d(TAG, "Time Table successful ");
+                    Intent portalActivity =new Intent(Register.this,Portal.class).putExtra("userID",userID);
+                    startActivity(portalActivity);
+                    portalActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    portalActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                  portalActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    //all old activities are finished with the above flag set
+
+                }
+
+
+                LectureSlot lectureSlot = new LectureSlot();
+
+                String a = Integer.toString(i);
+                String b = Integer.toString(j);
+
+                //push with custom id
+                String collectionName = day.get(a) + " " + hour.get(b);
+
+                Log.d(TAG, day.get(a) + hour.get(b));
+
+
+                db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName)
+                        .set(lectureSlot)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Time Table DocumentSnapshot written with ID: "+collectionName);
+                                counter[0] = counter[0] +1;
+                                Log.d(TAG, String.valueOf(counter[0]));
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+            }
+
+        }
+    }
 
 
     //loading animation
@@ -292,46 +367,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
 
     //auth
 
-    //addtimetable
 
-
-//    private void addTimeTable() {
-//
-//        String userID = mAuth.getCurrentUser().getUid();
-//
-//        flagTimetable=0;
-//        for(int i=1;i<8;i++) {
-//            for(int j=1;j<8;j++) {
-//                LectureSlot lectureSlot =new LectureSlot();
-//
-//                String a=Integer.toString(i);
-//                String b=Integer.toString(j);
-//
-//                        //push with custom id
-//                String collectionName = day.get(a)+" "+hour.get(a);
-//
-//                Log.d(TAG, day.get(a)+hour.get(a));
-//
-//
-//                db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName)
-//                        .set(lectureSlot)
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                Log.d(TAG, "Time Table DocumentSnapshot written with ID: ");
-//                                flagTimetable=flagTimetable+1;
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.w(TAG, "Error writing document", e);
-//                            }
-//                        });
-//
-//            }
-//        }
-//
 //        goToNextActivity(userID);
 //    }
 

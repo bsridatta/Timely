@@ -62,6 +62,7 @@ public class Profiler extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setElevation(4.0f);
 
+        //can pass as extra or  get with firebase auth
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -69,18 +70,17 @@ public class Profiler extends AppCompatActivity {
             // and get whatever type user account id is
         }
 
+        userID=FirebaseAuth.getInstance().getUid();
+
         // / retrieve the data using keyName
         //firestore
 //        // Access a Cloud Firestore instance from your Activity
-     FirebaseFirestore db = FirebaseFirestore.getInstance();
-        
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
+
     }
 
-    public String getUserID() {
-        return userID;
-    }
 
     //setting up the 3 dot more options menu
     @Override
@@ -110,8 +110,6 @@ public class Profiler extends AppCompatActivity {
 
             case R.id.action_item_more:
                 //do something
-
-
                 break;
 
             case R.id.signOut:
@@ -169,5 +167,13 @@ public class Profiler extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+
+
+    public void onBackPressed() {
+        //  super.onBackPressed();
+        moveTaskToBack(true);
+
     }
 }

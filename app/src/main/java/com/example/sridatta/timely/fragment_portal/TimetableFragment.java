@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class TimetableFragment extends Fragment {
 
-     private FirebaseFirestore db;
+    private FirebaseFirestore db;
 
     private GridView gridView;
     private GridViewAdapter gridAdapter;
@@ -31,9 +31,6 @@ public class TimetableFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db= FirebaseFirestore.getInstance();
-
-
-
 
     }
 
@@ -90,8 +87,6 @@ public class TimetableFragment extends Fragment {
                 String b=Integer.toString(j);
                 lectures.add(new LectureSlot(a,b));
             }
-
-
         }
         return lectures;
     }
