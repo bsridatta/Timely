@@ -6,19 +6,14 @@ package com.example.sridatta.timely.objects;
 
 public class LectureSlot {
 
-    private String day ="Mon";
-    private String hour="1";
-
+    private String day ;
+    private String hour;
     private String courseCode;
-
     private String courseName;
-
     private String degree;
     private String department;
     private String semester;
     private String section;
-
-
     private String block;
     private String floor;
     private String roomNo;
@@ -37,7 +32,8 @@ public class LectureSlot {
         this.floor = "0";
         this.roomNo = "A000";
         this.assistingFaculty = "Assisting Faculty";
-
+        this.day="Mon";
+        this.hour="1";
 
     }
 
@@ -61,7 +57,7 @@ public class LectureSlot {
 
     }
 
-    public LectureSlot(String courseCode, String courseName, String degree, String department, String semester, String section, String block, String floor, String roomNo, String assistingFaculty) {
+    public LectureSlot(String day, String hour,String courseCode, String courseName, String degree, String department, String semester, String section, String block, String floor, String roomNo, String assistingFaculty) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.degree = degree;
@@ -72,6 +68,8 @@ public class LectureSlot {
         this.floor = floor;
         this.roomNo = roomNo;
         this.assistingFaculty = assistingFaculty;
+        this.day=day;
+        this.hour=hour;
     }
 
     public String getCourseCode() {

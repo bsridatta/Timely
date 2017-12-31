@@ -71,7 +71,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
-
         db = FirebaseFirestore.getInstance();
 
         //ui
