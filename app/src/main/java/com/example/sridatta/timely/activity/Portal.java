@@ -116,7 +116,7 @@ public class Portal extends AppCompatActivity {
     //setting up the pager view under each tabs and naming the tabs
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new ProfileFragment(), "Schedule");
+
         adapter.addFrag(new FavoritesFragment(), "requests");
         adapter.addFrag(new RepresentativesFragment(), "reps");
         viewPager.setAdapter(adapter);

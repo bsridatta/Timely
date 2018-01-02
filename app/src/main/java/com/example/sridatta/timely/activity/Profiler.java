@@ -11,13 +11,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.sridatta.timely.fragment_profiler.FavoritesFragment;
 import com.example.sridatta.timely.fragment_profiler.HistoryFragment;
 import com.example.sridatta.timely.fragment_profiler.ProfileFragment;
 import com.example.sridatta.timely.R;
 import com.example.sridatta.timely.fragment_profiler.RepresentativesFragment;
+import com.example.sridatta.timely.objects.Faculty;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -76,6 +81,18 @@ public class Profiler extends AppCompatActivity {
         
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
+        DocumentReference docRef=db.collection("Faculty").document("g85uXr4GF3Vbwk5jht6XVCvfGjo2");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Faculty faculty = documentSnapshot.toObject(Faculty.class);
+                TextView name=(TextView)findViewById(R.id.tv_name);
+                TextView dept=(TextView)findViewById(R.id.tv_department);
+                name.setText(faculty.getFirstName()+" "+faculty.getLastName());
+                dept.setText(faculty.getDepartment());
+            }
+        });
+
     }
 
     public String getUserID() {
@@ -125,7 +142,7 @@ public class Profiler extends AppCompatActivity {
     //setting up the pager view under each tabs and naming the tabs
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new ProfileFragment(), "PROFILE");
+        adapter.addFrag(new ProfileFragment(),"PROFILE");
         adapter.addFrag(new FavoritesFragment(), "FAVORITES");
         adapter.addFrag(new RepresentativesFragment(), "REPRESENTATIVES");
         adapter.addFrag(new HistoryFragment(), "HISTORY");
