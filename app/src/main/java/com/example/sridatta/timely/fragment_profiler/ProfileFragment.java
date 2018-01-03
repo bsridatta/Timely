@@ -1,21 +1,26 @@
 package com.example.sridatta.timely.fragment_profiler;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sridatta.timely.R;
+import com.example.sridatta.timely.dialog.DesignationDialog;
+import com.example.sridatta.timely.dialog.MailDialog;
 import com.example.sridatta.timely.dialog.NumberDialog;
+import com.example.sridatta.timely.dialog.ResponsibilityDialog;
+import com.example.sridatta.timely.R;
 import com.example.sridatta.timely.objects.Faculty;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,8 +33,9 @@ import org.w3c.dom.Text;
 import static android.R.attr.data;
 
 
-public class ProfileFragment extends Fragment implements NumberDialog.OnInputSelected{
+public class ProfileFragment extends Fragment implements NumberDialog.EditNumberDialogListener,MailDialog.EditMailDialogListener,DesignationDialog.EditDesignationDialogListener,ResponsibilityDialog.EditResponsibilityDialogListener {
 
+    //widgets declaration
     private TextView tv;
     private String userID;
     private TextView tvNumber;
@@ -37,14 +43,47 @@ public class ProfileFragment extends Fragment implements NumberDialog.OnInputSel
     private TextView tvDesignation;
     private TextView tvResponsibility;
     private LinearLayout numberLayout;
-    private static final String TAG="Profile Fragment";
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private LinearLayout mailLayout;
+    private LinearLayout designationLayout;
+    private LinearLayout responsibilityLayout;
 
-    @Override
-    public void sendInput(String input) {
-        Log.d(TAG,"sendInput: found incoming input: "+input);
-        tvNumber.setText(input);
+    //firebase instance
+    FirebaseFirestore db=FirebaseFirestore.getInstance();
+    DocumentReference docRef = db.collection("Faculty").document("g85uXr4GF3Vbwk5jht6XVCvfGjo2");
+    private static final String TAG = ProfileFragment.class.getSimpleName();
 
+    // Call this method to launch the edit number dialog
+    private void showEditNumberDialog() {
+        FragmentManager fm = getFragmentManager();
+        NumberDialog numberdialog = NumberDialog.newInstance("Number dialog");
+        // SETS the target fragment for use later when sending results
+        numberdialog.setTargetFragment(ProfileFragment.this, 300);
+        numberdialog.show(fm, "fragment_edit_number");
+    }
+
+    // Call this method to launch the edit mail dialog
+    private void showEditMailDialog() {
+        FragmentManager fm = getFragmentManager();
+        MailDialog maildialog = MailDialog.newInstance("Mail dialog");
+        // SETS the target fragment for use later when sending results
+        maildialog.setTargetFragment(ProfileFragment.this, 300);
+        maildialog.show(fm, "fragment_edit_mail");
+    }
+
+    private void showEditDesignationDialog() {
+        FragmentManager fm = getFragmentManager();
+        DesignationDialog designationdialog = DesignationDialog.newInstance("Designation dialog");
+        // SETS the target fragment for use later when sending results
+        designationdialog.setTargetFragment(ProfileFragment.this, 300);
+        designationdialog.show(fm, "fragment_edit_designation");
+    }
+
+    private void showEditResponsibiltyDialog() {
+        FragmentManager fm = getFragmentManager();
+        ResponsibilityDialog responsibiltydialog = ResponsibilityDialog.newInstance("Responsibility dialog");
+        // SETS the target fragment for use later when sending results
+        responsibiltydialog.setTargetFragment(ProfileFragment.this, 300);
+        responsibiltydialog.show(fm, "fragment_edit_responsibility");
     }
 
     public ProfileFragment() {
@@ -53,6 +92,7 @@ public class ProfileFragment extends Fragment implements NumberDialog.OnInputSel
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
@@ -66,8 +106,10 @@ public class ProfileFragment extends Fragment implements NumberDialog.OnInputSel
         tvDesignation=(TextView)view.findViewById(R.id.tv_desig);
         tvResponsibility=(TextView) view.findViewById(R.id.tv_responsibility);
         numberLayout=(LinearLayout) view.findViewById(R.id.linear_number);
+        mailLayout=(LinearLayout) view.findViewById(R.id.linear_mail);
+        designationLayout=(LinearLayout) view.findViewById(R.id.linear_designation);
+        responsibilityLayout=(LinearLayout) view.findViewById(R.id.linear_responsibility);
 
-        DocumentReference docRef=db.collection("Faculty").document("g85uXr4GF3Vbwk5jht6XVCvfGjo2");
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -79,20 +121,70 @@ public class ProfileFragment extends Fragment implements NumberDialog.OnInputSel
             }
         });
 
+        //setting OnLongClick for the fields to update
         numberLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.d(TAG,"OnLongClick: opening dialog");
-                NumberDialog numDialog=new NumberDialog();
-                numDialog.setTargetFragment(ProfileFragment.this,1);
-                numDialog.show(getFragmentManager(),"number dialog");
-
+                showEditNumberDialog();
                 return false;
             }
         });
 
+        mailLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showEditMailDialog();
+                return false;
+            }
+        });
+
+        designationLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showEditDesignationDialog();
+                return false;
+            }
+        });
+
+        responsibilityLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showEditResponsibiltyDialog();
+                return false;
+            }
+        });
+
+
         return view;
     }
 
+    // This is called when the dialog is completed and the results have been passed
+    @Override
+    public void onFinishEditNumberDialog(String inputText) {
+        tvNumber.setText(inputText);
+        Toast.makeText(getContext(), "You have just changed your number to " + inputText, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onFinishEditMailDialog(String inputText) {
+        tvMail.setText(inputText);
+        Toast.makeText(getContext(), "You have just changed your mail to " + inputText, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onFinishEditDesignationDialog(String inputText) {
+        tvDesignation.setText(inputText);
+        Toast.makeText(getContext(), "You have just changed your Designation to " + inputText, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onFinishEditResponsibilityDialog(String inputText) {
+        tvResponsibility.setText(inputText);
+        Toast.makeText(getContext(), "You have just changed your Responsibility to " + inputText, Toast.LENGTH_SHORT).show();
+
+    }
 
 }

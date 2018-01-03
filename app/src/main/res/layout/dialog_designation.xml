@@ -5,12 +5,12 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/edit_number"
+        android:id="@+id/edit_designation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/action_ok"
+        android:id="@+id/et_designation_action_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -21,7 +21,7 @@
         android:textColor="@color/colorPrimary"/>
 
     <TextView
-        android:id="@+id/action_cancel"
+        android:id="@+id/et_designation_action_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,5 +30,4 @@
         android:layout_marginLeft="20dp"
         android:textSize="18dp"
         android:textColor="@color/colorPrimary"/>
-
 </RelativeLayout>

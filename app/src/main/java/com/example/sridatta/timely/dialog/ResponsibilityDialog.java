@@ -19,20 +19,20 @@ import com.example.sridatta.timely.R;
  * Created by Sukrita on 03-01-2018.
  */
 
-public class NumberDialog extends DialogFragment implements TextView.OnEditorActionListener {
+public class ResponsibilityDialog extends DialogFragment implements TextView.OnEditorActionListener {
 
-    private EditText editNumber;
+    private EditText editResponsibility;
     private TextView actionOk, actionCancel;
 
-    private static final String TAG="Number Dialog";
+    private static final String TAG="Responsibility Dialog";
 
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             // Return input text back to activity through the implemented listener
-            EditNumberDialogListener listener = (EditNumberDialogListener) getActivity();
-            listener.onFinishEditNumberDialog(editNumber.getText().toString());
+            EditResponsibilityDialogListener listener = (EditResponsibilityDialogListener) getActivity();
+            listener.onFinishEditResponsibilityDialog(editResponsibility.getText().toString());
             // Close the dialog and return back to the parent activity
             dismiss();
             return true;
@@ -41,18 +41,18 @@ public class NumberDialog extends DialogFragment implements TextView.OnEditorAct
     }
 
     // 1. Defines the listener interface with a method passing back data result.
-    public interface EditNumberDialogListener {
-        void onFinishEditNumberDialog(String inputText);
+    public interface EditResponsibilityDialogListener {
+        void onFinishEditResponsibilityDialog(String inputText);
     }
 
-    public NumberDialog() {
+    public ResponsibilityDialog() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static NumberDialog newInstance(String title) {
-        NumberDialog frag = new NumberDialog();
+    public static ResponsibilityDialog newInstance(String title) {
+        ResponsibilityDialog frag = new ResponsibilityDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -62,21 +62,21 @@ public class NumberDialog extends DialogFragment implements TextView.OnEditorAct
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_number, container);
+        return inflater.inflate(R.layout.dialog_responsibility, container);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
-        editNumber = (EditText) view.findViewById(R.id.edit_number);
-        actionCancel=(TextView) view.findViewById(R.id.et_number_action_cancel);
-        actionOk=(TextView) view.findViewById(R.id.et_number_action_ok);
+        editResponsibility = (EditText) view.findViewById(R.id.edit_responsibility);
+        actionCancel=(TextView) view.findViewById(R.id.et_responsibility_action_cancel);
+        actionOk=(TextView) view.findViewById(R.id.et_responsibility_action_ok);
         // Fetch arguments from bundle and set title
-        String title = getArguments().getString("title", "Enter Number");
+        String title = getArguments().getString("title", "Enter Responsibility");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
-        editNumber.requestFocus();
+        editResponsibility.requestFocus();
         actionCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +89,8 @@ public class NumberDialog extends DialogFragment implements TextView.OnEditorAct
         actionOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"onClick: number edited");
-                String input=editNumber.getText().toString();
+                Log.d(TAG,"onClick: Responsibility edited");
+                String input=editResponsibility.getText().toString();
                 if(!input.equals("")) {
                     Log.d(TAG,"sending back result");
                     sendBackResult();
@@ -105,13 +105,13 @@ public class NumberDialog extends DialogFragment implements TextView.OnEditorAct
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         // 2. Setup a callback when the "Done" button is pressed on keyboard
-        editNumber.setOnEditorActionListener(this);
+        editResponsibility.setOnEditorActionListener(this);
     }
 
     public void sendBackResult() {
         // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        EditNumberDialogListener listener = (EditNumberDialogListener) getTargetFragment();
-        listener.onFinishEditNumberDialog(editNumber.getText().toString());
+        EditResponsibilityDialogListener listener = (EditResponsibilityDialogListener) getTargetFragment();
+        listener.onFinishEditResponsibilityDialog(editResponsibility.getText().toString());
         Log.d(TAG,"going to dismiss");
         dismiss();
     }
