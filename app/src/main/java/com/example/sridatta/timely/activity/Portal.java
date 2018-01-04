@@ -1,5 +1,6 @@
 package com.example.sridatta.timely.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
-import com.example.sridatta.timely.fragment_profiler.FavoritesFragment;
+import com.example.sridatta.timely.fragment_portal.RequestsFragment;
 import com.example.sridatta.timely.fragment_profiler.ProfileFragment;
 import com.example.sridatta.timely.R;
 import com.example.sridatta.timely.fragment_profiler.RepresentativesFragment;
@@ -23,16 +27,16 @@ import java.util.List;
 
 public class Portal extends AppCompatActivity {
 
-
-
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portal);
+
 
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -67,11 +71,23 @@ public class Portal extends AppCompatActivity {
 
 
 
+
     }
+
 
     public Toolbar getToolbar() {
 
         return toolbar;
+    }
+    public void floatbutton(View view)
+    {
+        Toast.makeText(this,"Floating button clicked ",Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     //setting up the 3 dot more options menu
@@ -115,9 +131,9 @@ public class Portal extends AppCompatActivity {
 
     //setting up the pager view under each tabs and naming the tabs
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),Portal.this);
         adapter.addFrag(new ProfileFragment(), "Schedule");
-        adapter.addFrag(new FavoritesFragment(), "requests");
+        adapter.addFrag(new RequestsFragment(), "requests");
         adapter.addFrag(new RepresentativesFragment(), "reps");
         viewPager.setAdapter(adapter);
     }
@@ -129,13 +145,16 @@ public class Portal extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_face);
     }
 
+
     // Page viewer adapter
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+        Context context;
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        public ViewPagerAdapter(FragmentManager manager,Context context) {
             super(manager);
+            this.context=context;
         }
 
         @Override
@@ -157,9 +176,11 @@ public class Portal extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
 
             //making it null so only icons are there
-            //     return mFragmentTitleList.get(position);
-                  return null;
+               return mFragmentTitleList.get(position);
+                  //return null;
         }
+
+
     }
 
 }

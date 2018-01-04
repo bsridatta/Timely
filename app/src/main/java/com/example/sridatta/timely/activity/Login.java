@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity {
                 if(firebaseAuth.getCurrentUser()!=null){
 
                     String userID = firebaseAuth.getCurrentUser().getUid();
-                    startActivity(new Intent(Login.this,Profiler.class).putExtra("userID",userID));
+                    startActivity(new Intent(Login.this,Profiler.class).putExtra("r",userID));
 
                 }
             }
