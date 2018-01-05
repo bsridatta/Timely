@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0FFFF"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Number"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/cardview_dark_background" />
+
+    <EditText
+        android:id="@+id/edit_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:paddingTop="50dp"
+        android:inputType="phone"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <TextView
+        android:id="@+id/et_number_action_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/edit_number"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="100dp"
+        android:text="OK"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/et_number_action_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/edit_number"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="100dp"
+        android:text="CANCEL"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+</RelativeLayout>

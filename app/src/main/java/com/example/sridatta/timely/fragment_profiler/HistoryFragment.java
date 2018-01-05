@@ -1,5 +1,6 @@
 package com.example.sridatta.timely.fragment_profiler;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,5 +27,6 @@ public class HistoryFragment extends Fragment{
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false);
     }
+
 
 }
