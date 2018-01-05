@@ -68,6 +68,7 @@ public class Profiler extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setElevation(4.0f);
 
+        //can pass as extra or  get with firebase auth
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -75,10 +76,14 @@ public class Profiler extends AppCompatActivity {
             // and get whatever type user account id is
         }
 
+        userID=FirebaseAuth.getInstance().getUid();
+
         // / retrieve the data using keyName
         //firestore
 //        // Access a Cloud Firestore instance from your Activity
-     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         DocumentReference docRef = db.collection("Faculty").document("g85uXr4GF3Vbwk5jht6XVCvfGjo2");
@@ -102,6 +107,7 @@ public class Profiler extends AppCompatActivity {
     public String getUserID() {
         return userID;
     }
+
 
     //setting up the 3 dot more options menu
     @Override
@@ -134,11 +140,18 @@ public class Profiler extends AppCompatActivity {
 
                 break;
 
+            case R.id.signOut:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this,Login.class));
+                break;
+
             case android.R.id.home:
                 Intent homeIntent = new Intent(this, Portal.class);
                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homeIntent);
                 break;
+
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -183,6 +196,15 @@ public class Profiler extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
+
+
+    public void onBackPressed() {
+        //  super.onBackPressed();
+        moveTaskToBack(true);
+
+    }
+}
     public void button(View view)
     {
         Intent i=new Intent(this,FacultySearch.class);

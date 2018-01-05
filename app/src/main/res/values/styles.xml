@@ -12,7 +12,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Divider">
+    <style name="MySwitch" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorAccent">@color/switch_color</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+  </style>
+
+  <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>

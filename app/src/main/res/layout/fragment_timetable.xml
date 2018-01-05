@@ -1,9 +1,48 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.sridatta.timely.fragment_portal.TimetableFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-</FrameLayout>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        >
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_gridtableLayout"
+                android:layout_width="1160dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <GridView
+                    android:id="@+id/gvTimetable"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="4dp"
+                    android:columnWidth="160dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="7"
+                    android:paddingBottom="110dp"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbars="horizontal"
+                    android:stretchMode="none"
+                    android:verticalSpacing="1dp">
+
+                </GridView>
+
+
+            </LinearLayout>
+        </FrameLayout>
+    </HorizontalScrollView>
+
+</android.support.constraint.ConstraintLayout>

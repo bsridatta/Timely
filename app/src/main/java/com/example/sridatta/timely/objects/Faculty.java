@@ -15,7 +15,7 @@ public class Faculty {
     private String additionalResponsibility;
     private String photoURL;
 
-    private lectureSlot[][]  lectureSlot;
+//    private LectureSlot[][]  LectureSlot;
 
 
 
@@ -29,11 +29,25 @@ public class Faculty {
         this.designation = "designation";
         this.additionalResponsibility = "Responsibility";
         this.photoURL = "photoURL";
-        this.lectureSlot = new lectureSlot[7][7];
+//        this.LectureSlot = new LectureSlot[7][7];
 
     }
 
-    public Faculty(String firstName, String lastName, String department, String phoneNumber, String emailID, String designation, String additionalResponsibility, String photoURL, lectureSlot[][]  lectureSlot) {
+    public Faculty(String firstName, String lastName, String department, String phoneNumber, String emailID, String designation) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.phoneNumber = phoneNumber;
+        this.emailID = emailID;
+        this.designation = designation;
+        this.additionalResponsibility = "Responsibility";
+        this.photoURL = "photoURL";
+//        this.LectureSlot = new LectureSlot[7][7];
+
+    }
+
+
+    public Faculty(String firstName, String lastName, String department, String phoneNumber, String emailID, String designation, String additionalResponsibility, String photoURL) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
@@ -42,7 +56,8 @@ public class Faculty {
         this.designation = designation;
         this.additionalResponsibility = additionalResponsibility;
         this.photoURL = photoURL;
-        this.lectureSlot = lectureSlot;
+//        this.LectureSlot = LectureSlot;
+//
     }
 
     public String getFirstName() {
@@ -109,11 +124,11 @@ public class Faculty {
         this.photoURL = photoURL;
     }
 
-    public com.example.sridatta.timely.objects.lectureSlot[][] getLectureSlot() {
-        return lectureSlot;
-    }
-
-    public void setLectureSlot(com.example.sridatta.timely.objects.lectureSlot[][] lectureSlot) {
-        this.lectureSlot = lectureSlot;
-    }
+//    public com.example.sridatta.timely.objects.LectureSlot[][] getLectureSlot() {
+//        return LectureSlot;
+//    }
+//
+//    public void setLectureSlot(com.example.sridatta.timely.objects.LectureSlot[][] LectureSlot) {
+//        this.LectureSlot = LectureSlot;
+//    }
 }
