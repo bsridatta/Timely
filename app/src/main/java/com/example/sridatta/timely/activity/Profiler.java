@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.sridatta.timely.fragment_profiler.FavoritesFragment;
@@ -30,7 +31,6 @@ import java.util.List;
 
 public class Profiler extends AppCompatActivity {
 
-
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -38,11 +38,16 @@ public class Profiler extends AppCompatActivity {
     private static final String TAG = Profiler.class.getSimpleName();
 
     private String userID;
-    
+    private FirebaseAuth mAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        mAuth = FirebaseAuth.getInstance();
+
+        userID = mAuth.getCurrentUser().getUid();
 
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -67,6 +72,7 @@ public class Profiler extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setElevation(4.0f);
 
+        //can pass as extra or  get with firebase auth
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -74,14 +80,17 @@ public class Profiler extends AppCompatActivity {
             // and get whatever type user account id is
         }
 
+        userID=FirebaseAuth.getInstance().getUid();
+
         // / retrieve the data using keyName
         //firestore
 //        // Access a Cloud Firestore instance from your Activity
-     FirebaseFirestore db = FirebaseFirestore.getInstance();
-        
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
-        DocumentReference docRef=db.collection("Faculty").document("g85uXr4GF3Vbwk5jht6XVCvfGjo2");
+        DocumentReference docRef = db.collection("Faculty").document(userID);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -91,13 +100,18 @@ public class Profiler extends AppCompatActivity {
                 name.setText(faculty.getFirstName()+" "+faculty.getLastName());
                 dept.setText(faculty.getDepartment());
             }
+
         });
 
+
+
     }
+
 
     public String getUserID() {
         return userID;
     }
+
 
     //setting up the 3 dot more options menu
     @Override
@@ -127,13 +141,17 @@ public class Profiler extends AppCompatActivity {
 
             case R.id.action_item_more:
                 //do something
+
                 break;
+            
 
             case android.R.id.home:
                 Intent homeIntent = new Intent(this, Portal.class);
                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homeIntent);
                 break;
+
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,7 +160,7 @@ public class Profiler extends AppCompatActivity {
     //setting up the pager view under each tabs and naming the tabs
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new ProfileFragment(),"PROFILE");
+        adapter.addFrag(new ProfileFragment(), "PROFILE");
         adapter.addFrag(new FavoritesFragment(), "FAVORITES");
         adapter.addFrag(new RepresentativesFragment(), "REPRESENTATIVES");
         adapter.addFrag(new HistoryFragment(), "HISTORY");
@@ -178,4 +196,13 @@ public class Profiler extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
+
+
+    public void onBackPressed() {
+        //  super.onBackPressed();
+        moveTaskToBack(true);
+
+    }
+
 }

@@ -36,8 +36,8 @@ import static android.R.attr.data;
 public class ProfileFragment extends Fragment implements NumberDialog.EditNumberDialogListener,MailDialog.EditMailDialogListener,DesignationDialog.EditDesignationDialogListener,ResponsibilityDialog.EditResponsibilityDialogListener {
 
     //widgets declaration
-    private TextView tv;
     private String userID;
+    private FirebaseAuth mAuth;
     private TextView tvNumber;
     private TextView tvMail;
     private TextView tvDesignation;
@@ -47,9 +47,16 @@ public class ProfileFragment extends Fragment implements NumberDialog.EditNumber
     private LinearLayout designationLayout;
     private LinearLayout responsibilityLayout;
 
+    //firebase keys
+    private static final String PHONE_KEY = "phoneNumber";
+    private static final String EMAIL_KEY = "emailID";
+    private static final String DESIGNATION_KEY = "designation";
+    private static final String RESPONSIBILITY_KEY = "additionalResponsibility";
+
     //firebase instance
+    //"g85uXr4GF3Vbwk5jht6XVCvfGjo2"
     FirebaseFirestore db=FirebaseFirestore.getInstance();
-    DocumentReference docRef = db.collection("Faculty").document("g85uXr4GF3Vbwk5jht6XVCvfGjo2");
+    DocumentReference docRef = db.collection("Faculty").document(userID);
     private static final String TAG = ProfileFragment.class.getSimpleName();
 
     // Call this method to launch the edit number dialog
@@ -99,6 +106,9 @@ public class ProfileFragment extends Fragment implements NumberDialog.EditNumber
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
+
+        userID = mAuth.getCurrentUser().getUid();
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
         tvNumber=(TextView) view.findViewById(R.id.tv_number);
@@ -121,7 +131,6 @@ public class ProfileFragment extends Fragment implements NumberDialog.EditNumber
             }
         });
 
-        //setting OnLongClick for the fields to update
         numberLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -162,6 +171,14 @@ public class ProfileFragment extends Fragment implements NumberDialog.EditNumber
     @Override
     public void onFinishEditNumberDialog(String inputText) {
         tvNumber.setText(inputText);
+        //update number to firbase
+        docRef.update(PHONE_KEY, inputText)
+                .addOnSuccessListener(new OnSuccessListener < Void > () {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                });
         Toast.makeText(getContext(), "You have just changed your number to " + inputText, Toast.LENGTH_SHORT).show();
 
     }
@@ -169,6 +186,14 @@ public class ProfileFragment extends Fragment implements NumberDialog.EditNumber
     @Override
     public void onFinishEditMailDialog(String inputText) {
         tvMail.setText(inputText);
+        //update mail-ID to firbase
+        docRef.update(EMAIL_KEY, inputText)
+                .addOnSuccessListener(new OnSuccessListener < Void > () {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                });
         Toast.makeText(getContext(), "You have just changed your mail to " + inputText, Toast.LENGTH_SHORT).show();
 
     }
@@ -176,6 +201,14 @@ public class ProfileFragment extends Fragment implements NumberDialog.EditNumber
     @Override
     public void onFinishEditDesignationDialog(String inputText) {
         tvDesignation.setText(inputText);
+        //update designation to firbase
+        docRef.update(DESIGNATION_KEY, inputText)
+                .addOnSuccessListener(new OnSuccessListener < Void > () {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                });
         Toast.makeText(getContext(), "You have just changed your Designation to " + inputText, Toast.LENGTH_SHORT).show();
 
     }
@@ -183,8 +216,17 @@ public class ProfileFragment extends Fragment implements NumberDialog.EditNumber
     @Override
     public void onFinishEditResponsibilityDialog(String inputText) {
         tvResponsibility.setText(inputText);
+        //update designation to firbase
+        docRef.update(RESPONSIBILITY_KEY, inputText)
+                .addOnSuccessListener(new OnSuccessListener < Void > () {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                });
         Toast.makeText(getContext(), "You have just changed your Responsibility to " + inputText, Toast.LENGTH_SHORT).show();
 
     }
+
 
 }
