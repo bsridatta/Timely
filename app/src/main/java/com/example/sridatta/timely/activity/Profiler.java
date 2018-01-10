@@ -40,7 +40,7 @@ public class Profiler extends AppCompatActivity {
     private String userID;
     private FirebaseAuth mAuth;
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,22 +89,6 @@ public class Profiler extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-
-        DocumentReference docRef = db.collection("Faculty").document(userID);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Faculty faculty = documentSnapshot.toObject(Faculty.class);
-                TextView name=(TextView)findViewById(R.id.tv_name);
-                TextView dept=(TextView)findViewById(R.id.tv_department);
-                name.setText(faculty.getFirstName()+" "+faculty.getLastName());
-                dept.setText(faculty.getDepartment());
-            }
-
-        });
-
-
-
     }
 
 
@@ -208,12 +192,11 @@ public class Profiler extends AppCompatActivity {
         moveTaskToBack(true);
 
     }
-}
+
     public void button(View view)
     {
         Intent i=new Intent(this,FacultySearch.class);
         startActivity(i);
     }
-
 
 }
