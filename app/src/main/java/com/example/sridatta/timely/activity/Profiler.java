@@ -38,12 +38,16 @@ public class Profiler extends AppCompatActivity {
     private static final String TAG = Profiler.class.getSimpleName();
 
     private String userID;
+    private FirebaseAuth mAuth;
 
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        mAuth = FirebaseAuth.getInstance();
+
+        userID = mAuth.getCurrentUser().getUid();
 
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,7 +85,7 @@ public class Profiler extends AppCompatActivity {
      FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
-        DocumentReference docRef = db.collection("Faculty").document("g85uXr4GF3Vbwk5jht6XVCvfGjo2");
+        DocumentReference docRef = db.collection("Faculty").document(userID);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
