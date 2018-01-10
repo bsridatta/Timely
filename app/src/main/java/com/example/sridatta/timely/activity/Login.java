@@ -25,32 +25,80 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    //  UI
+    //  1 choose login or register
+    private Button btnChooseRegister;
+    private Button btnChooseLogin;
+
+    //login
     private EditText mEmailField;
     private EditText mPasswordField;
     private TextView tvErrorMessage;
     private Button btnLogin;
+
+    //loading while logging in
     private ProgressBar progressBar;
 
+    // three ui modules choosing login and loading animation
     private ConstraintLayout loadLayout;
     private ConstraintLayout childConstraint;
+    private ConstraintLayout parentConstraint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         //UI declarations
         loadLayout =(ConstraintLayout)findViewById(R.id.load_layout);
         childConstraint=(ConstraintLayout)findViewById(R.id.child_constraint);
-        loadLayout.setVisibility(View.INVISIBLE);
+        parentConstraint=(ConstraintLayout)findViewById(R.id.parent_constraint);
 
+        // displaying only choosing
+        loadLayout.setVisibility(View.INVISIBLE);
+        childConstraint.setVisibility(View.INVISIBLE);
+
+
+        //logging in
         mEmailField=(EditText)findViewById(R.id.et_email);
         mPasswordField=(EditText)findViewById(R.id.et_password);
-        btnLogin=(Button)findViewById(R.id.btn_login);
         tvErrorMessage =(TextView) findViewById(R.id.tv_error_message);
 
+        //loading
         progressBar= (ProgressBar) findViewById(R.id.pbPogressDialog);
+
+
+        //choose login or register
+        btnChooseLogin=(Button) findViewById(R.id.btn_chooseLogIn);
+        btnChooseRegister=(Button) findViewById(R.id.btn_chooseRegister);
+
+        btnChooseRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(Login.this,Register.class));
+            }
+        });
+        btnChooseLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentConstraint.setVisibility(view.INVISIBLE);
+                childConstraint.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        //login
+        btnLogin=(Button)findViewById(R.id.btn_login);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startLoad();
+                //directing it to the login procedure
+                login();
+            }
+        });
+
 
         // FIREBASE
         //check if user is authenticated
@@ -62,25 +110,14 @@ public class Login extends AppCompatActivity {
                 if(firebaseAuth.getCurrentUser()!=null){
 
                     String userID = firebaseAuth.getCurrentUser().getUid();
-                    startActivity(new Intent(Login.this,Profiler.class).putExtra("r",userID));
+                    startActivity(new Intent(Login.this,Portal.class).putExtra("userID",userID));
 
                 }
             }
         };
-
-        //setting onclick for login button
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startLoad();
-                //directing it to the login procedure
-                login();
-            }
-        });
-
     }
 
-
+    //loading
     public void startLoad(){
 
         childConstraint.setVisibility(View.INVISIBLE);
@@ -92,6 +129,8 @@ public class Login extends AppCompatActivity {
         childConstraint.setVisibility(View.VISIBLE);
         loadLayout.setVisibility(View.INVISIBLE);
     }
+
+
 
     @Override
     public void onStart() {

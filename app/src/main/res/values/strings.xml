@@ -5,6 +5,25 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_settings">Settings</string>
 
+    <string-array name="DepartmentArray">
+        <item>CSE</item>
+        <item>ECE</item>
+        <item>EEE</item>
+        <item>EIE</item>
+        <item>MEE</item>
+    </string-array>
+
+    <string-array name="DesignationArray">
+        <item>Prof.</item>
+        <item>Asst.Prof</item>
+        <item>Developer</item>
+        <item>Representative</item>
+    </string-array>
+
+    <!--to remove the xml rendering error-->
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+
 
 </resources>
 

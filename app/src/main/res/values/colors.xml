@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#6E94E2 </color>
+    <color name="colorPrimary">#6e94e2</color>
     <color name="colorPrimaryDark">#7091D7 </color>
     <color name="colorAccent">#DCDFE9 </color>
 
@@ -14,6 +14,8 @@
 
     <color name="profile_name">#FAFAFA </color>
     <color name="department_name">#c8e8ff </color>
+
+    <color name="switch_color">#fe485a</color>
 
 
 
