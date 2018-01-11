@@ -26,8 +26,10 @@
         </activity>
         <activity android:name=".activity.Profiler" />
         <activity android:name=".activity.Portal" />
+
         <activity android:name=".activity.RecyclerViewFirestore" />
 
+        <activity android:name=".activity.Register"></activity>
     </application>
 
 </manifest>

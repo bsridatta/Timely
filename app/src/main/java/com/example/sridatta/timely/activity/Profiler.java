@@ -110,6 +110,8 @@ public class Profiler extends AppCompatActivity {
 
     public String getUserID() {
         return userID;
+
+
     }
 
 
@@ -144,6 +146,11 @@ public class Profiler extends AppCompatActivity {
 
                 break;
             
+
+            case R.id.signOut:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this,Login.class));
+                break;
 
             case android.R.id.home:
                 Intent homeIntent = new Intent(this, Portal.class);

@@ -18,4 +18,10 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="MySwitch" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorAccent">@color/switch_color</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+    </style>
+
+
 </resources>
