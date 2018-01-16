@@ -58,6 +58,7 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabIndicatorColor="@color/department_name"
             app:tabIndicatorHeight="2dp"
+
             app:tabMode="fixed" />
 
 </RelativeLayout>
