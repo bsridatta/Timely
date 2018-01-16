@@ -164,11 +164,11 @@ public class Portal extends AppCompatActivity {
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
-        Context context;
+//        Context context;
 
         public ViewPagerAdapter(FragmentManager manager,Context context) {
             super(manager);
-            this.context=context;
+//            this.context=context;
         }
 
         @Override
@@ -190,8 +190,7 @@ public class Portal extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
 
             //making it null so only icons are there
-               return mFragmentTitleList.get(position);
-                  //return null;
+                  return null;
         }
 
 

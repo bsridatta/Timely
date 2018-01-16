@@ -61,8 +61,6 @@ public class TimetableFragment extends Fragment {
 
     private ArrayList<LectureSlot> lectures;
 
-
-
     public TimetableFragment() {
         // Required empty public constructor
     }
@@ -229,7 +227,7 @@ public class TimetableFragment extends Fragment {
 //    }
 
 
-//
+
 //                String a=Integer.toString(i);
 //
 //
@@ -255,7 +253,7 @@ public class TimetableFragment extends Fragment {
 //
 //                }
 //
-////                String a=Integer.toString(i);
+//                String a=Integer.toString(i);
 //                String b=Integer.toString(j);
 }
 

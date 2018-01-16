@@ -31,12 +31,12 @@
                     android:gravity="center"
                     android:horizontalSpacing="4dp"
                     android:numColumns="7"
-                    android:paddingBottom="110dp"
                     android:scrollbarAlwaysDrawHorizontalTrack="true"
                     android:scrollbarAlwaysDrawVerticalTrack="true"
                     android:scrollbars="horizontal"
                     android:stretchMode="none"
-                    android:verticalSpacing="1dp">
+                    android:verticalSpacing="1dp"
+                    >
 
                 </GridView>
 
@@ -46,3 +46,4 @@
     </HorizontalScrollView>
 
 </android.support.constraint.ConstraintLayout>
+    <!--android:paddingBottom="110dp"-->
