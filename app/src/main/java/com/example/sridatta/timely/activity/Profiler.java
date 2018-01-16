@@ -11,20 +11,25 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.sridatta.timely.fragment_profiler.FavoritesFragment;
 import com.example.sridatta.timely.fragment_profiler.HistoryFragment;
 import com.example.sridatta.timely.fragment_profiler.ProfileFragment;
 import com.example.sridatta.timely.R;
 import com.example.sridatta.timely.fragment_profiler.RepresentativesFragment;
+import com.example.sridatta.timely.objects.Faculty;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Profiler extends AppCompatActivity {
-
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -33,11 +38,16 @@ public class Profiler extends AppCompatActivity {
     private static final String TAG = Profiler.class.getSimpleName();
 
     private String userID;
-    
+    private FirebaseAuth mAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        mAuth = FirebaseAuth.getInstance();
+
+        userID = mAuth.getCurrentUser().getUid();
 
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,10 +85,15 @@ public class Profiler extends AppCompatActivity {
         // / retrieve the data using keyName
         //firestore
 //        // Access a Cloud Firestore instance from your Activity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+    }
 
 
+    public String getUserID() {
+        return userID;
     }
 
 
@@ -110,6 +125,7 @@ public class Profiler extends AppCompatActivity {
 
             case R.id.action_item_more:
                 //do something
+
                 break;
 
             case R.id.signOut:
@@ -176,4 +192,11 @@ public class Profiler extends AppCompatActivity {
         moveTaskToBack(true);
 
     }
+
+    public void button(View view)
+    {
+        Intent i=new Intent(this,FacultySearch.class);
+        startActivity(i);
+    }
+
 }
