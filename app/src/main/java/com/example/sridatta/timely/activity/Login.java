@@ -165,16 +165,18 @@ public class Login extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                //checking if the login is completed successfully or not
+                    //checking if the login is completed successfully or not
+
                     if(!task.isSuccessful()){
-//                        Toast.makeText(Login.this,"unable to login",Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(Login.this,"unable to login",Toast.LENGTH_SHORT).show();
                         tvErrorMessage.setText("unable to login");
                         stopLoad();
                     }
+
                     else{
                         Toast.makeText(Login.this,"logging in",Toast.LENGTH_SHORT).show();
-
                     }
+
                 }
             });
         }
