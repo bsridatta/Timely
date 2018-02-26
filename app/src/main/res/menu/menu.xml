@@ -2,11 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_item_search"
+        android:icon="@drawable/ic_action_search"
+        android:title="search faculty"
+        app:showAsAction="always"
+        >
+
+    </item>
+    <item
         android:id="@+id/action_item_more"
         android:icon="@drawable/ic_more_vert"
         android:title="more profile options"
         app:showAsAction="always">
         <menu></menu>
     </item>
+
 
 </menu>

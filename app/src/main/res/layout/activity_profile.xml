@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +9,10 @@
 
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout_profiler"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
@@ -15,18 +20,61 @@
         app:elevation="20dp"
         app:expanded="true">
 
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:addStatesFromChildren="false"
-            android:background="?attr/colorPrimary"
-            android:gravity="center_vertical|start"
-            android:weightSum="1"
+            android:layout_weight="1"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            android:background="@color/colorPrimary"
+            android:addStatesFromChildren="false"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        </android.support.v7.widget.Toolbar>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_complete_profiler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="4dp"
+                    android:gravity="center_vertical|start"
+                    android:hint="Search by faculty"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+
+                    android:layout_weight="1"/>
+                <ImageButton
+                    android:id="@+id/ibv_cancel_profiler"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_action_cancel_new"
+                    android:layout_gravity="end"
+                    android:layout_weight="0"
+                    android:visibility="gone"
+                    android:background="@color/fui_transparent"
+                    />
+                <ImageButton
+                    android:id="@+id/ibv_search_profiler"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_action_search"
+                    android:layout_gravity="end"
+                    android:layout_weight="0"
+                    android:background="@color/fui_transparent"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+
+
+
 
 
         <android.support.constraint.ConstraintLayout
@@ -98,7 +146,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_name"
                 tools:layout_editor_absoluteY="0dp"
-                android:onClick="button"/>
+                />
 
 
         </android.support.constraint.ConstraintLayout>

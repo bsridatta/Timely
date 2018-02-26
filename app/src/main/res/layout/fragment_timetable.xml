@@ -35,8 +35,7 @@
                     android:scrollbarAlwaysDrawVerticalTrack="true"
                     android:scrollbars="horizontal"
                     android:stretchMode="none"
-                    android:verticalSpacing="1dp"
-                    >
+                    android:verticalSpacing="1dp">
 
                 </GridView>
 
