@@ -28,7 +28,6 @@
         <activity android:name=".activity.Portal" />
         <activity android:name=".activity.Register"></activity>
 
-        <activity android:name=".activity.FacultySearch"></activity>
     </application>
 
 </manifest>

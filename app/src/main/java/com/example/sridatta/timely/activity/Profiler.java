@@ -1,6 +1,9 @@
 package com.example.sridatta.timely.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,19 +15,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 
-import com.example.sridatta.timely.fragment_profiler.FavoritesFragment;
-import com.example.sridatta.timely.fragment_profiler.HistoryFragment;
+import com.example.sridatta.timely.fragment_profiler.SentRequestsFragment;
 import com.example.sridatta.timely.fragment_profiler.ProfileFragment;
 import com.example.sridatta.timely.R;
-import com.example.sridatta.timely.fragment_profiler.RepresentativesFragment;
+import com.example.sridatta.timely.fragment_profiler.ReceivedRequestsFragment;
 import com.example.sridatta.timely.objects.Faculty;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +41,11 @@ public class Profiler extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private AutoCompleteTextView actvFacultySearch;
+    private ImageButton ibSearch;
+    private ImageButton ibCancel;
+    ArrayList<String> facultyNames;
+    private FirebaseFirestore db;
 
     private static final String TAG = Profiler.class.getSimpleName();
 
@@ -48,6 +60,12 @@ public class Profiler extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         userID = mAuth.getCurrentUser().getUid();
+        //faculty list retrieval
+        facultyNames=new ArrayList<>();
+        actvFacultySearch=(AutoCompleteTextView)findViewById(R.id.auto_complete_profiler);
+        ibSearch=(ImageButton)findViewById(R.id.ibv_search_profiler);
+        ibCancel=(ImageButton)findViewById(R.id.ibv_cancel_profiler);
+        db= FirebaseFirestore.getInstance();
 
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -138,6 +156,53 @@ public class Profiler extends AppCompatActivity {
                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homeIntent);
                 break;
+            case R.id.action_item_search:
+                toolbar.setVisibility(View.GONE);
+                actvFacultySearch.setVisibility(View.VISIBLE);
+                ibSearch.setVisibility(View.VISIBLE);
+                ibCancel.setVisibility(View.VISIBLE);
+                actvFacultySearch.setDropDownBackgroundResource(R.color.windowBackground);
+
+                db.collection("Faculty")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        Faculty faculty=document.toObject(Faculty.class);
+                                        facultyNames.add(faculty.getFirstName()+" "+faculty.getLastName());
+                                        //Log.d(TAG, document.getId() + " => " + document.getData());
+                                    }
+                                } else {
+                                    //Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+
+                ArrayAdapter adapter = new ArrayAdapter(Profiler.this,android.R.layout.simple_spinner_dropdown_item,facultyNames);
+                actvFacultySearch.setAdapter(adapter);
+                ibSearch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //code
+                    }
+                });
+                ibCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toolbar.setVisibility(View.VISIBLE);
+                        actvFacultySearch.setVisibility(View.GONE);
+                        ibSearch.setVisibility(View.GONE);
+                        ibCancel.setVisibility(View.GONE);
+                    }
+                });
+
+
+
+                break;
 
 
         }
@@ -149,9 +214,8 @@ public class Profiler extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new ProfileFragment(), "PROFILE");
-        adapter.addFrag(new FavoritesFragment(), "FAVORITES");
-        adapter.addFrag(new RepresentativesFragment(), "REPRESENTATIVES");
-        adapter.addFrag(new HistoryFragment(), "HISTORY");
+        adapter.addFrag(new SentRequestsFragment(), "SENT REQUESTS");
+        adapter.addFrag(new ReceivedRequestsFragment(), "RECEIVED REQUESTS");
         viewPager.setAdapter(adapter);
     }
 
@@ -193,10 +257,6 @@ public class Profiler extends AppCompatActivity {
 
     }
 
-    public void button(View view)
-    {
-        Intent i=new Intent(this,FacultySearch.class);
-        startActivity(i);
-    }
+
 
 }

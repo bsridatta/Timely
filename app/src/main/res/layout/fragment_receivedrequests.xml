@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d3d3d3"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.Profiler">
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_receivedRequests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
+
+
+
+
+</RelativeLayout>
