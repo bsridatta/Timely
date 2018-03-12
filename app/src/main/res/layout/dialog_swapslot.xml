@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="330dp"
+    android:layout_height="250dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:padding="2dp"
+    card_view:cardBackgroundColor="#a9a9a9"
+    android:layout_gravity="center">
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="240dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:longClickable="true"
+    android:padding="2dp"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/tv_dayDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:paddingRight="25dp"
+        android:paddingTop="2dp"
+        android:text="day"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/tv_HourDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp"
+        android:text="h"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="12dp">
+
+
+        <TextView
+            android:id="@+id/tv_courseCodeDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="courseCode"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_courseNameDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="courseName"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_degreeDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="degree"
+                android:paddingHorizontal="2dp"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_departmentDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dept"
+                android:paddingHorizontal="2dp"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_sectionDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="2dp"
+                android:text="sec"
+                android:textSize="24sp" />
+            <TextView
+                android:id="@+id/textview3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="2dp"
+                android:text="Sem"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_semesterDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="2dp"
+                android:text="sem"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_blockDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="2dp"
+                android:text="block"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_floorDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="2dp"
+                android:text="floor"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_roomNoDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="2dp"
+                android:text="room no"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_assistingFacultyDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="helpingFaculty"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+    </TableLayout>
+    <Button
+        android:id="@+id/bv_swap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="5dp"
+        android:text="Swap"
+        android:textColor="#0000ff"
+        android:background="@color/fui_transparent"/>
+
+
+</android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>

@@ -17,7 +17,6 @@ public class LectureSlot {
     private String block;
     private String floor;
     private String roomNo;
-
     private String assistingFaculty;
 
     public LectureSlot() {

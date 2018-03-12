@@ -31,7 +31,6 @@
                     android:gravity="center"
                     android:horizontalSpacing="4dp"
                     android:numColumns="7"
-                    android:paddingBottom="110dp"
                     android:scrollbarAlwaysDrawHorizontalTrack="true"
                     android:scrollbarAlwaysDrawVerticalTrack="true"
                     android:scrollbars="horizontal"
@@ -46,3 +45,4 @@
     </HorizontalScrollView>
 
 </android.support.constraint.ConstraintLayout>
+    <!--android:paddingBottom="110dp"-->
