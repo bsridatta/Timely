@@ -95,14 +95,6 @@
                 android:text="sec"
                 android:textSize="24sp" />
             <TextView
-                android:id="@+id/textview3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="2dp"
-                android:text="Sem"
-                android:textSize="24sp" />
-
-            <TextView
                 android:id="@+id/tv_semesterDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -51,7 +51,7 @@ public class SentRequestsAdapter extends RecyclerView.Adapter<SentRequestsAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cvSwapRequest;
         public CardView cardItemImage;
-        public ImageView tvFacultyImage;
+        public ImageView ivFacultyImage;
         public TextView tvFacultyTitle;
         public TextView tvFacultyDetail;
         public TextView tvTime;
@@ -65,7 +65,7 @@ public class SentRequestsAdapter extends RecyclerView.Adapter<SentRequestsAdapte
             super(v);
             cvSwapRequest = (CardView) v.findViewById(R.id.card_view);
             cardItemImage = (CardView) v.findViewById(R.id.card_item_image);
-            tvFacultyImage = (ImageView) v.findViewById(R.id.iv_faculty_image);
+           // ivFacultyImage = (ImageView) v.findViewById(R.id.iv_faculty_image);
             tvFacultyTitle = (TextView) v.findViewById(R.id.tv_facultyTitle);
             tvFacultyDetail =
                     (TextView) v.findViewById(R.id.tv_facultyDetail);
@@ -94,7 +94,7 @@ public class SentRequestsAdapter extends RecyclerView.Adapter<SentRequestsAdapte
     public void onBindViewHolder(SentRequestsAdapter.MyViewHolder holder, final int position) {
         holder.tvFacultyTitle.setText(titles.get(position).getFirstName()+" "+titles.get(position).getLastName());
         holder.tvFacultyDetail.setText(details.get(position).getDay()+" "+details.get(position).getHour());
-        holder.tvFacultyImage.setImageResource(images.get(position));
+        //holder.ivFacultyImage.setImageResource(images.get(position));
         holder.tvDate.setText(date.get(position));
         holder.tvTime.setText(time.get(position));
 

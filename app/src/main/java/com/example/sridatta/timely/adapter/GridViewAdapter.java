@@ -2,6 +2,8 @@ package com.example.sridatta.timely.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class GridViewAdapter extends ArrayAdapter {
+    private static final String TAG = "TAG";
     private TimetableFragment context;
     private int layoutResourceId;
     private ArrayList data = new ArrayList();
@@ -40,6 +43,7 @@ public class GridViewAdapter extends ArrayAdapter {
             LayoutInflater inflater = ((Activity) context.getActivity()).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ViewHolder();
+            //row.setBackgroundColor(Color.parseColor(""));
 
             holder.dayHour=(TextView) row.findViewById(R.id.tv_dayHour);
 
@@ -64,19 +68,28 @@ public class GridViewAdapter extends ArrayAdapter {
 
         LectureSlot item = (LectureSlot) data.get(position);
 
+
         String dayHour=item.getDay()+item.getHour();
+        row.setBackgroundColor(Color.parseColor(item.getColorOfTheSlot()));
+        if(item.getColorOfTheSlot().equals("#FFFF99"))
+        row.setElevation(0);
+
+
         holder.dayHour.setText(dayHour);
+
 
         holder.courseCode.setText(item.getCourseCode());
         holder.courseName.setText(item.getCourseName());
 
-        String batchDetails = item.getDegree()+"-"+item.getDepartment()+"-"+ item.getSemester() +"  Sem-"+ item.getSection() ;
+
+        String batchDetails = item.getDegree()+" "+item.getDepartment()+" "+ item.getSemester() +" "+ item.getSection() ;
         holder.batchDetails.setText(batchDetails);
 
-        String classLocation = item.getBlock()+"-"+item.getFloor()+" "+item.getRoomNo();
+        String classLocation = item.getBlock()+" "+item.getFloor()+" "+item.getRoomNo();
         holder.classLocation.setText(classLocation);
 
         holder.assistingFaculty.setText(item.getAssistingFaculty());
+
 
         return row;
     }

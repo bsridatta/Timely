@@ -2,6 +2,7 @@ package com.example.sridatta.timely.fragment_portal;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -65,14 +66,25 @@ public class CurrentRequestsFragment extends Fragment {
         userID = mAuth.getCurrentUser().getUid();
 
 
-        db= FirebaseFirestore.getInstance();
 
         requestsDetails=new ArrayList<>();
         requestsNames=new ArrayList<>();
         time=new ArrayList<>();
         date=new ArrayList<>();
         profilePics=new ArrayList<>();
-       database();
+//        getActivity().runOnUiThread(new Runnable(){
+//            public void run() {
+//                //If there are stories, add them to the table
+//                database();
+//
+//                try {
+//
+//                } catch (final Exception ex) {
+//                    Log.i("---","Exception in thread");
+//                }
+//            }
+//        });
+        database();
 
 
 
@@ -99,6 +111,7 @@ public class CurrentRequestsFragment extends Fragment {
 
                     }
                 });
+        return;
 
     }
     private void accessDetails(QuerySnapshot value)
@@ -119,8 +132,10 @@ public class CurrentRequestsFragment extends Fragment {
             SwapRequest swapRequesttemp = document.toObject(SwapRequest.class);
             //adding the documentid which is used in deletion
             swapRequesttemp.setRequestDocumentId(document.getId());
-            Log.d(TAG, document.getId() + " THIS IS SETTING OF REQUEST ID=> DELETE FLAW" + document.getData()+" "+swapRequesttemp.getRequestDocumentId());
-            requestsDetails.add(swapRequesttemp);
+ //           Log.d(TAG, document.getId() + "(CURRENT REQUESTS FRAGMENT) 7th  entry THIS IS ADDING DOCUMENTS TO REQUESTS DETAILS " + document.getData());
+//            requestsDetails.add(swapRequesttemp);
+            Log.d(TAG, document.getId() + " (CURRENT REQUESTS FRAGMENT) 2ND ENTRY DOCUMENT DETAILS" + document.getData());
+
             flag=1;
 
             accessNames(swapRequesttemp,value);
@@ -137,7 +152,7 @@ public class CurrentRequestsFragment extends Fragment {
             rv.setAdapter(adapter);
         }
 
-
+        return;
     }
 
 
@@ -147,22 +162,26 @@ public class CurrentRequestsFragment extends Fragment {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Faculty facultytemp = documentSnapshot.toObject(Faculty.class);
-                accessParameters(facultytemp,value);
+                accessParameters(swapRequesttemp,facultytemp,value);
 
             }
         });
+        return;
     }
-    private void accessParameters(Faculty facultytemp,QuerySnapshot value)
+    private void accessParameters(SwapRequest swapRequesttemp,Faculty facultytemp,QuerySnapshot value)
     {
+        requestsDetails.add(swapRequesttemp);
         requestsNames.add(facultytemp);
         profilePics.add(R.drawable.album4);
-        time.add("4:54pm");
-        date.add("05/07/2016");
-        Log.d(TAG, "2ND ENTRY IN CurrentREQUESTS FRAGMENT ALERT BECOZ OF CHANGE IN DB ");
-        if(requestsDetails.size()==value.getDocuments().size())
+        time.add(swapRequesttemp.getTimeOfRequest());
+        date.add(swapRequesttemp.getDateOfRequest());
+        Log.d(TAG, " ( CRF ) 8TH ENTRY THIS IS ADDING DOCUMENTS TO REQUESTS DETAILS, REQUESTS NAMES AND OTHER THINGS. ALERT LISTENER REACHED REQUESTS FRAGMENT. THE VALUE OF REQUEST DETAILS SIZE AND VALUE .SIZE IS  "+requestsNames.size()+ " value "+value.size()+" and we have "+facultytemp.getFirstName()+facultytemp.getLastName());
+
+        if(requestsNames.size()==value.size())
         {
             fillCurrentRequests();
         }
+        return;
     }
     private void fillCurrentRequests()
     {
@@ -200,10 +219,12 @@ public class CurrentRequestsFragment extends Fragment {
                 }
             }
         }
+        Log.d(TAG, "(CRF) 9TH ENTRY parameters FROM THE LISTENER TO THE ADAPTER  ");
         //parameters passing to the adapter
         adapter = new CurrentRequestsAdapter(CurrentRequestsFragment.this,requestsNames, requestsDetails, profilePics, time, date);
 
         rv.setAdapter(adapter);
+        return;
 
     }
 
@@ -216,14 +237,16 @@ public class CurrentRequestsFragment extends Fragment {
 
 
         rv = (RecyclerView) view.findViewById(R.id.rv_currentRequests);
-        ItemClickSupport.addTo(rv).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
-                onClickCurrentRequest(position);
-                return false;
-            }
-        });
-        rv.setHasFixedSize(true);
+//        ItemClickSupport.addTo(rv).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
+//                //int p=recyclerView.findViewHolderForAdapterPosition(position).getAdapterPosition();
+//                int p=recyclerView.getChildAdapterPosition(v);
+//                onClickCurrentRequest(p);
+//                return false;
+//            }
+//        });
+        rv.setHasFixedSize(false);
 
 
 
@@ -235,53 +258,53 @@ public class CurrentRequestsFragment extends Fragment {
 
         return view;
     }
-    private void onClickCurrentRequest(int position)
-    {
-        final Dialog dialogdoneswap = new Dialog(getContext());
-        dialogdoneswap.setContentView(R.layout.dialog_confirmswap);
-        dialogdoneswap.show();// Context, this, etc.
-
-        doneSwapButton=(Button)dialogdoneswap.findViewById(R.id.bv_confirmSwap);
-        dialogQues=(TextView)dialogdoneswap.findViewById(R.id.textView);
-        dialogQues.setText("Do you want to remove?");
-
-
-        doneSwapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                onClickDoneSwapButton(position);
-
-                dialogdoneswap.dismiss();
-                Toast.makeText(getContext(),"Request completed",Toast.LENGTH_SHORT).show();
-
-            }
-
-        });
-    }
-    private void onClickDoneSwapButton(int position)
-    {
-        db.collection("Faculty").document(userID).collection("receivedRequests").add(requestsDetails.get(position));
-        deleteCurrentRequest(position);
-
-    }
-    private void deleteCurrentRequest(int position)
-    {
-        db.collection("Faculty").document(userID).collection("currentRequests").document(requestsDetails.get(position).getRequestDocumentId())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
-    }
+//    private void onClickCurrentRequest(int position)
+//    {
+//        final Dialog dialogdoneswap = new Dialog(getContext());
+//        dialogdoneswap.setContentView(R.layout.dialog_confirmswap);
+//        dialogdoneswap.show();// Context, this, etc.
+//
+//        doneSwapButton=(Button)dialogdoneswap.findViewById(R.id.bv_confirmSwap);
+//        dialogQues=(TextView)dialogdoneswap.findViewById(R.id.textView);
+//        dialogQues.setText("Do you want to remove?");
+//
+//
+//        doneSwapButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//                onClickDoneSwapButton(position);
+//
+//                dialogdoneswap.dismiss();
+//                Toast.makeText(getContext(),"Request completed",Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//        });
+//    }
+//    private void onClickDoneSwapButton(int position)
+//    {
+//        db.collection("Faculty").document(userID).collection("receivedRequests").add(requestsDetails.get(position));
+//        deleteCurrentRequest(position);
+//
+//    }
+//    private void deleteCurrentRequest(int position)
+//    {
+//        db.collection("Faculty").document(userID).collection("currentRequests").document(requestsDetails.get(position).getRequestDocumentId())
+//                .delete()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error deleting document", e);
+//                    }
+//                });
+//    }
 
 }

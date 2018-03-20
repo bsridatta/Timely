@@ -18,6 +18,7 @@ public class LectureSlot {
     private String floor;
     private String roomNo;
     private String assistingFaculty;
+    private String colorOfTheSlot;
 
     public LectureSlot() {
 
@@ -33,6 +34,7 @@ public class LectureSlot {
         this.assistingFaculty = "Assisting Faculty";
         this.day="Mon";
         this.hour="1";
+        this.colorOfTheSlot="#FF0000";
 
     }
 
@@ -52,11 +54,12 @@ public class LectureSlot {
         this.floor = "0";
         this.roomNo = "A000";
         this.assistingFaculty = "Assisting Faculty";
+        this.colorOfTheSlot="#FF0000";
 
 
     }
 
-    public LectureSlot(String day, String hour,String courseCode, String courseName, String degree, String department, String semester, String section, String block, String floor, String roomNo, String assistingFaculty) {
+    public LectureSlot(String day, String hour,String courseCode, String courseName, String degree, String department, String semester, String section, String block, String floor, String roomNo, String assistingFaculty,String colorOfTheSlot) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.degree = degree;
@@ -69,6 +72,7 @@ public class LectureSlot {
         this.assistingFaculty = assistingFaculty;
         this.day=day;
         this.hour=hour;
+        this.colorOfTheSlot=colorOfTheSlot;
     }
 
     public String getCourseCode() {
@@ -168,5 +172,11 @@ public class LectureSlot {
         this.hour = hour;
     }
 
+    public String getColorOfTheSlot() {
+        return colorOfTheSlot;
+    }
 
+    public void setColorOfTheSlot(String colorOfTheSlot) {
+        this.colorOfTheSlot = colorOfTheSlot;
+    }
 }

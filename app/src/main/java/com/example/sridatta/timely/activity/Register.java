@@ -139,8 +139,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         day.put("3", "Wed");
         day.put("4", "Thu");
         day.put("5", "Fri");
-        day.put("6", "Sat");
-        day.put("7", "Sun");
 
         hour.put("1", "1");
         hour.put("2", "2");
@@ -247,7 +245,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                         Toast.makeText(Register.this,"Faculty DocumentSnapshot successfully written!",Toast.LENGTH_SHORT).show();
 
                         Log.d(TAG, "Faculty DocumentSnapshot successfully written!");
-                        addTimeTable();
+                        Intent i=new Intent(Register.this,Excel.class);
+                        startActivity(i);
 
                     }
                 })
@@ -273,6 +272,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         final int[] counter = {0};
         for (int i = 1; i < 6; i++) {
             for (int j = 1; j < 8; j++) {
+
+
                 if(i*j==35){
                     Log.d(TAG, "Time Table successful ");
                     Intent portalActivity =new Intent(Register.this,Portal.class).putExtra("userID",userID);
@@ -291,9 +292,10 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 String b = Integer.toString(j);
 
                 //push with custom id
-                String collectionName = day.get(a) + " " + hour.get(b);
+                String collectionName =a+" row "+b+" column "+ day.get(a) + " " + hour.get(b);
 
-                Log.d(TAG, day.get(a) + hour.get(b));
+
+                Log.d(TAG, a+" row "+b+" column "+ day.get(a) + " " + hour.get(b));
 
 
                 db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName)
