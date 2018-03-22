@@ -18,15 +18,19 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.example.sridatta.timely.fragment_other_user.OtherProfileFragment;
 import com.example.sridatta.timely.fragment_profiler.SentRequestsFragment;
 import com.example.sridatta.timely.fragment_profiler.ProfileFragment;
 import com.example.sridatta.timely.R;
 import com.example.sridatta.timely.fragment_profiler.ReceivedRequestsFragment;
 import com.example.sridatta.timely.objects.Faculty;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Profiler extends AppCompatActivity {
+    private TextView facultyName;
+    private TextView facultyDepartment;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -51,22 +57,40 @@ public class Profiler extends AppCompatActivity {
 
     private String userID;
     private FirebaseAuth mAuth;
+    private ArrayList<Faculty> userFaculty;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
         userID = mAuth.getCurrentUser().getUid();
+        userFaculty=new ArrayList<>();
+        facultyDepartment=(TextView) findViewById(R.id.tv_department);
+        facultyName=(TextView) findViewById(R.id.tv_name);
+
+
+        db.collection("Faculty").document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Faculty faculty = documentSnapshot.toObject(Faculty.class);
+                displayNameAndDept(faculty);
+
+
+            }
+        });
+
+
+
         //faculty list retrieval
         facultyNames=new ArrayList<>();
         actvFacultySearch=(AutoCompleteTextView)findViewById(R.id.auto_complete_profiler);
         ibSearch=(ImageButton)findViewById(R.id.ibv_search_profiler);
         ibCancel=(ImageButton)findViewById(R.id.ibv_cancel_profiler);
         db= FirebaseFirestore.getInstance();
-
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,8 +129,16 @@ public class Profiler extends AppCompatActivity {
 //        // Access a Cloud Firestore instance from your Activity
 
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+    }
+    public void displayNameAndDept(Faculty faculty)
+    {
+        userFaculty.add(faculty);
+        facultyName.setText(userFaculty.get(0).getFirstName()+" "+userFaculty.get(0).getLastName());
+        facultyDepartment.setText(userFaculty.get(0).getDepartment());
+
+
     }
 
 
@@ -151,6 +183,11 @@ public class Profiler extends AppCompatActivity {
                 startActivity(new Intent(this,Login.class));
                 break;
 
+            case R.id.editexcelsheet:
+                Intent excelIntent = new Intent(this, Excel.class);
+                startActivity(excelIntent);
+                break;
+
             case android.R.id.home:
                 Intent homeIntent = new Intent(this, Portal.class);
                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -187,7 +224,16 @@ public class Profiler extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+
                         //code
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("label", actvFacultySearch.getText().toString());
+//                        OtherProfileFragment fragobj = new OtherProfileFragment();
+//                        fragobj.setArguments(bundle);
+//                        gotoOtherUser();
+
+
+
                     }
                 });
                 ibCancel.setOnClickListener(new View.OnClickListener() {
@@ -209,6 +255,12 @@ public class Profiler extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public void gotoOtherUser(){
+        Intent i=new Intent(Profiler.this,OtherUserActivity.class);
+        // i.putExtra("label",actvFacultySearch.getText().toString());
+        startActivity(i);
+    }
+
 
     //setting up the pager view under each tabs and naming the tabs
     private void setupViewPager(ViewPager viewPager) {
@@ -218,6 +270,8 @@ public class Profiler extends AppCompatActivity {
         adapter.addFrag(new ReceivedRequestsFragment(), "RECEIVED REQUESTS");
         viewPager.setAdapter(adapter);
     }
+
+
 
     // Page viewer adapter
     class ViewPagerAdapter extends FragmentPagerAdapter {

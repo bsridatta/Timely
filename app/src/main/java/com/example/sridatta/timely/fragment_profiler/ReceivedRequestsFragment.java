@@ -59,16 +59,23 @@ public class ReceivedRequestsFragment extends Fragment  {
         super.onCreate(savedInstanceState);
 
 
-        db= FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        userID = mAuth.getCurrentUser().getUid();
         //array lists of the contents
         requestsDetails=new ArrayList<>();
         requestsNames=new ArrayList<>();
         time=new ArrayList<>();
         date=new ArrayList<>();
         profilePics=new ArrayList<>();
-        db.collection("Faculty").document(userID).collection("sentRequests")
+
+        database();
+
+    }
+    private void database(){
+
+        db= FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
+
+        db.collection("Faculty").document(userID).collection("receivedRequests")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -79,7 +86,6 @@ public class ReceivedRequestsFragment extends Fragment  {
                                 SwapRequest swapRequesttemp = document.toObject(SwapRequest.class);
                                 //adding the documentid which is used in deletion
                                 swapRequesttemp.setRequestDocumentId(document.getId());
-                                requestsDetails.add(swapRequesttemp);
                                 accessNames(swapRequesttemp,task.getResult());
 
 
@@ -93,26 +99,36 @@ public class ReceivedRequestsFragment extends Fragment  {
                 });
 
 
+
     }
     private void accessNames(SwapRequest swapRequesttemp,QuerySnapshot querySnapshot)
     {
+        db= FirebaseFirestore.getInstance();
+
+
         db.collection("Faculty").document(swapRequesttemp.getUserSenderId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Faculty facultytemp = documentSnapshot.toObject(Faculty.class);
-                requestsNames.add(facultytemp);
-                profilePics.add(R.drawable.album4);
-                time.add("4:54pm");
-                date.add("05/07/2016");
-                Log.d(TAG, " ENTRY IN Received REQUESTS FRAGMENT ALERT BECOZ OF CHANGE IN DB ");
-                if(querySnapshot.getDocuments().size()==requestsDetails.size()) {
-                    fillReceivedRequests();
-                }
+                fillArraylist(swapRequesttemp,facultytemp,querySnapshot);
+
 
 
 
             }
         });
+
+    }
+    private void fillArraylist(SwapRequest swapRequesttemp,Faculty facultytemp,QuerySnapshot querySnapshot){
+        requestsDetails.add(swapRequesttemp);
+        requestsNames.add(facultytemp);
+        profilePics.add(R.drawable.album4);
+        time.add(swapRequesttemp.getTimeOfRequest());
+        date.add(swapRequesttemp.getDateOfRequest());
+        Log.d(TAG, " ENTRY IN Received REQUESTS FRAGMENT ALERT BECOZ OF CHANGE IN DB ");
+        if(querySnapshot.size()==requestsDetails.size()) {
+            fillReceivedRequests();
+        }
 
     }
     private void fillReceivedRequests()
@@ -131,14 +147,10 @@ public class ReceivedRequestsFragment extends Fragment  {
 
         View rootView = inflater.inflate(R.layout.fragment_receivedrequests, container, false);
 
-        db= FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        userID = mAuth.getCurrentUser().getUid();
-
 
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_receivedRequests);
-        rv.setHasFixedSize(true);
+        rv.setHasFixedSize(false);
         adapter = new ReceivedRequestsAdapter(ReceivedRequestsFragment.this,requestsNames, requestsDetails, profilePics, time, date);
         rv.setAdapter(adapter);
 
