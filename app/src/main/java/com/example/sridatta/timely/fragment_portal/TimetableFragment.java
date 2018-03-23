@@ -36,7 +36,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.SimpleTimeZone;
 
 import static android.content.ContentValues.TAG;
 
@@ -92,7 +95,26 @@ public class TimetableFragment extends Fragment {
 
         lectures= new ArrayList<>();
         userID = mAuth.getCurrentUser().getUid();
+//        getActivity().runOnUiThread(new Runnable(){
+//            public void run() {
+//                //If there are stories, add them to the table
+//                database();
+//
+//                try {
+//
+//                } catch (final Exception ex) {
+//                    Log.i("---","Exception in thread");
+//                }
+//            }
+//        });
+        database();
 
+
+
+
+
+    }
+    private void database(){
         db.collection("Faculty").document(userID).collection("TimeTable")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -126,12 +148,11 @@ public class TimetableFragment extends Fragment {
             }
         });
 
-
-
-
+    return;
     }
     private void getUserName(Faculty faculty){
         facultytemp.add(faculty);
+        return;
 
     }
 
@@ -139,6 +160,7 @@ public class TimetableFragment extends Fragment {
 
         gridAdapter = new GridViewAdapter(this, R.layout.card_lectureslot, lectures);
         gridView.setAdapter(gridAdapter);
+        return;
     }
 
 
@@ -176,6 +198,8 @@ public class TimetableFragment extends Fragment {
         tvSlotSwap = (TextView) dialog.findViewById(R.id.tv_swap);
         tvEditSlot = (TextView) dialog.findViewById(R.id.tv_edit);
         swFree = (Switch) dialog.findViewById(R.id.switch_free);
+        LectureSlot slotInView = (LectureSlot) gridView.getAdapter().getItem(position);
+        tvSlotName.setText(slotInView.getDay()+" "+slotInView.getHour());
 
         tvSlotSwap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +217,7 @@ public class TimetableFragment extends Fragment {
         });
 
         dialog.show();
+        return;
     }
 
     //editing dialog
@@ -208,7 +233,7 @@ public class TimetableFragment extends Fragment {
         SwapRequest swapRequest=new SwapRequest(slotInView.getDay(), slotInView.getHour(), slotInView.getCourseCode(), slotInView.getCourseName(),
                 slotInView.getDegree(), slotInView.getDepartment(), slotInView.getSemester(),
                 slotInView.getSection(), slotInView.getBlock(), slotInView.getFloor(), slotInView.getRoomNo(),
-                slotInView.getAssistingFaculty(),userid,"temporary");
+                slotInView.getAssistingFaculty(),userid,"temporary","random time ","random date");
 
 
 //
@@ -255,7 +280,7 @@ public class TimetableFragment extends Fragment {
 
 
 
-
+        return;
     }
     private void onClickSwapButton(SwapRequest swapRequest)
     {
@@ -275,16 +300,34 @@ public class TimetableFragment extends Fragment {
 
             }
         });
-
+        return;
     }
     private void onClickConfirmSwapButton(SwapRequest swapRequest)
     {
+        Calendar c = Calendar.getInstance();
 
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c.getTime());
+        SimpleDateFormat tf = new SimpleDateFormat("hh:mm a");
+        String formattedTime = tf.format(c.getTime());
+
+        Log.d(TAG,"Current time => " + c.getTime()+" "+formattedDate+" "+formattedTime);
+        swapRequest.setDateOfRequest(formattedDate);
+        swapRequest.setTimeOfRequest(formattedTime);
 
 
         db.collection("Faculty").document(userid).collection("sentRequests").add(swapRequest);
-        db.collection("Requests").document(facultytemp.get(0).getFirstName()+""+facultytemp.get(0).getLastName()+" "+swapRequest.getDay()+" "+swapRequest.getHour()).set(swapRequest);
-        Log.d(TAG, " =>  1st ENTRY IN ON CLICK OF SWAP BUTTON"  );
+        db.collection("Requests").document(facultytemp.get(0).getFirstName()+" "+facultytemp.get(0).getLastName()+" "+swapRequest.getDay()+" "+swapRequest.getHour()).set(swapRequest);
+
+
+        //System.out.println("Current time => " + c.getTime());
+
+
+
+        Log.d(TAG, " =>  1st ENTRY IN ON CLICK OF SWAP BUTTON"+facultytemp.get(0).getFirstName()+" "+facultytemp.get(0).getLastName()+" "+swapRequest.getDay()+" "+swapRequest.getHour()  );
+
+        return;
     }
 
 

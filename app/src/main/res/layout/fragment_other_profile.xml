@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.sridatta.timely.activity.Profiler">
+
+
+    <RelativeLayout
+        android:id="@+id/app_bar_layout_other_profiler"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="20dp"
+        app:expanded="true">
+        <ImageView
+            android:id="@+id/iv_other_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_home"
+            android:background="@color/fui_transparent"
+            android:layout_margin="5dp"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/profileLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_weight="0.45"
+            android:elevation="4dp"
+            android:layout_marginBottom="?attr/actionBarSize">
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvProfilePic"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:layout_margin="5dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:clickable="true"
+                android:elevation="10dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="4dp"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imProfilePic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:background="@color/windowBackground"
+                    android:cropToPadding="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/album1"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="33dp" />
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_other_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/profile_name"
+                android:textSize="24dp"
+                android:text="name"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvProfilePic"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <TextView
+                android:id="@+id/tv_other_department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="6dp"
+                android:text="Computer Science"
+                android:textColor="@color/department_name"
+                android:textSize="18dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_other_name"
+                tools:layout_editor_absoluteY="0dp"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </RelativeLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:paddingBottom="12dp">
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view1="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                card_view1:cardCornerRadius="6dp"
+                card_view1:cardElevation="8dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/linear_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="4dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/callicon"
+                            android:scaleType="fitCenter"
+                            android:maxWidth="35dp"
+                            android:maxHeight="35dp"
+                            android:adjustViewBounds="true"
+                            android:padding="8dp" />
+
+                        <TextView
+                            android:id="@+id/tv_other_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:text="8270570075"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+                        <View style="@style/Divider" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="4dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/envelope2"
+                            android:scaleType="fitCenter"
+                            android:maxWidth="35dp"
+                            android:maxHeight="35dp"
+                            android:adjustViewBounds="true"
+                            android:padding="8dp" />
+
+
+                        <TextView
+                            android:id="@+id/tv_other_mail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:text="rapidash7suk@gmail.com"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view2="http://schemas.android.com/apk/res-auto"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:elevation="8dp"
+                app:cardUseCompatPadding="true"
+                card_view2:cardCornerRadius="6dp"
+                card_view2:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_other_Designation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:paddingStart="35dp"
+                        android:paddingTop="8dp"
+                        android:text="Assistant Professor"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+                        <View
+                            style="@style/Divider"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_other_AdditionalResponsibility"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:paddingStart="35dp"
+                        android:paddingTop="8dp"
+                        android:text="Class Advisor: Cse-D"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>

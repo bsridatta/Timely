@@ -29,13 +29,14 @@
                     android:layout_margin="4dp"
                     android:columnWidth="160dp"
                     android:gravity="center"
-                    android:horizontalSpacing="4dp"
+                    android:background="#fffdd0"
+                    android:horizontalSpacing="0.5dp"
                     android:numColumns="7"
                     android:scrollbarAlwaysDrawHorizontalTrack="true"
                     android:scrollbarAlwaysDrawVerticalTrack="true"
                     android:scrollbars="horizontal"
                     android:stretchMode="none"
-                    android:verticalSpacing="1dp">
+                    android:verticalSpacing="4dp">
 
                 </GridView>
 

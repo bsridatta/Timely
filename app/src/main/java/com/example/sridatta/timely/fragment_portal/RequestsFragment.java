@@ -4,6 +4,7 @@ package com.example.sridatta.timely.fragment_portal;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -56,6 +57,7 @@ public class RequestsFragment extends Fragment  {
     private ArrayList<String> date;
     private ArrayList<Integer> profilePics;
 
+
     //dialog elements
     private TextView tvcourseCode;
     private TextView tvCourseName;
@@ -92,14 +94,29 @@ public class RequestsFragment extends Fragment  {
         time=new ArrayList<>();
         date=new ArrayList<>();
         profilePics=new ArrayList<>();
+//        getActivity().runOnUiThread(new Runnable(){
+//            public void run() {
+//                //If there are stories, add them to the table
+//                database();
+//
+//                try {
+//
+//                } catch (final Exception ex) {
+//                    Log.i("---","Exception in thread");
+//                }
+//            }
+//        });
+            database();
 
-        database();
+
 
     }
 
     private void database()
     {
         //Listener
+        db= FirebaseFirestore.getInstance();
+
         db.collection("Requests")
                 .addSnapshotListener(new EventListener<QuerySnapshot>()
                 {
@@ -121,7 +138,7 @@ public class RequestsFragment extends Fragment  {
                 });
 
 
-
+        return;
     }
     private void accessDetails(QuerySnapshot value)
     {
@@ -138,28 +155,32 @@ public class RequestsFragment extends Fragment  {
             SwapRequest swapRequesttemp = document.toObject(SwapRequest.class);
             //adding the documentid which is used in deletion
             swapRequesttemp.setRequestDocumentId(document.getId());
-            Log.d(TAG, document.getId() + " THIS IS SETTING OF REQUEST ID=> DELETE FLAW" + document.getData()+" "+swapRequesttemp.getRequestDocumentId());
+            Log.d(TAG, document.getId() + "  2ND ENTRY DOCUMENT DETAILS" + document.getData());
 
-            requestsDetails.add(swapRequesttemp);
+            //requestsDetails.add(swapRequesttemp);
 
             flag=1;
             accessNames(swapRequesttemp,value);
         }
         if(flag==0)
         {
-            adapter=new RecyclerAdapter(RequestsFragment.this,requestsNames,requestsDetails,profilePics,time,date);
+            Log.d(TAG, " FOR LOOP NEVER ENTERED" );
+            adapter = new RecyclerAdapter(RequestsFragment.this,requestsNames,requestsDetails,profilePics,time,date);
             rv.setAdapter(adapter);
         }
+        return;
 
     }
     private void accessNames(SwapRequest swapRequesttemp,QuerySnapshot value)
     {
+        db= FirebaseFirestore.getInstance();
+
 
         db.collection("Faculty").document(swapRequesttemp.getUserSenderId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Faculty facultytemp = documentSnapshot.toObject(Faculty.class);
-                accessParameters(facultytemp,value);
+                accessParameters(swapRequesttemp,facultytemp,value);
 
 
 
@@ -167,22 +188,23 @@ public class RequestsFragment extends Fragment  {
 
             }
         });
+        return;
 
     }
-    private void accessParameters(Faculty facultytemp,QuerySnapshot value)
+    private void accessParameters(SwapRequest swapRequesttemp,Faculty facultytemp,QuerySnapshot value)
     {
+        requestsDetails.add(swapRequesttemp);
         requestsNames.add(facultytemp);
         profilePics.add(R.drawable.album4);
-        time.add("4:54pm");
-        date.add("05/07/2016");
+        time.add(swapRequesttemp.getTimeOfRequest());
+        date.add(swapRequesttemp.getDateOfRequest());
 
-
-        Log.d(TAG, "2ND ENTRY IN REQUESTS FRAGMENT ALERT BECOZ OF CHANGE IN DB ");
-        if(requestsDetails.size()==value.getDocuments().size()){
+        Log.d(TAG, "3RD ENTRY THIS IS ADDING DOCUMENTS TO REQUESTS DETAILS,REQUESTS NAMES AND OTHER THINGS. ALERT LISTENER REACHED REQUESTS FRAGMENT. THE VALUE OF REQUEST DETAILS SIZE AND VALUE .SIZE IS  "+requestsNames.size()+ " value "+value.size()+" and we have "+facultytemp.getFirstName()+facultytemp.getLastName());
+        if(requestsNames.size()==value.size()){
             fillRequests();
 
-
         }
+        return;
 
 
     }
@@ -238,9 +260,14 @@ public class RequestsFragment extends Fragment  {
 
 
 
-        adapter = new RecyclerAdapter(RequestsFragment.this,requestsNames, requestsDetails, profilePics, time, date);
+        Log.d(TAG, "4TH ENTRY parameters FROM THE LISTENER TO THE ADAPTER  ");
 
+        adapter = new RecyclerAdapter(RequestsFragment.this,requestsNames,requestsDetails,profilePics,time,date);
         rv.setAdapter(adapter);
+        return;
+
+
+
 
     }
     @Override
@@ -254,131 +281,139 @@ public class RequestsFragment extends Fragment  {
         View rootView = inflater.inflate(R.layout.fragment_requests, container, false);
 
         rv = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        rv.setHasFixedSize(true);
-        adapter = new RecyclerAdapter(RequestsFragment.this,requestsNames, requestsDetails, profilePics, time, date);
+        rv.setHasFixedSize(false);
+        adapter = new RecyclerAdapter(RequestsFragment.this,requestsNames,requestsDetails,profilePics,time,date);
         rv.setAdapter(adapter);
+
+
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
 
-        ItemClickSupport.addTo(rv).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClicked(RecyclerView recyclerView,  int position, View v) {
-                onClickSwapRequest(position);
-                return false;
-            }
-        });
+//
+//        ItemClickSupport.addTo(rv).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClicked(RecyclerView recyclerView,  int position, View v) {
+//                //int p=recyclerView.findViewHolderForAdapterPosition(position).getAdapterPosition();
+//                int p=recyclerView.getChildAdapterPosition(v);
+//                Log.d(TAG,"THE VALUE OF THE POSITION IS "+position);
+//                onClickSwapRequest(p);
+//                return false;
+//            }
+//        });
+
 
         return rootView;
 
     }
-    private void onClickSwapRequest( int position)
-    {
-
-        final Dialog dialogswap = new Dialog(getContext());
-        dialogswap.setContentView(R.layout.dialog_swapslot);
-        dialogswap.show();// Context, this, etc.
-
-
-        tvcourseCode=(TextView) dialogswap.findViewById(R.id.tv_courseCodeDialog);
-        tvCourseName=(TextView)dialogswap.findViewById(R.id.tv_courseNameDialog);
-        tvdegree=(TextView)dialogswap.findViewById(R.id.tv_degreeDialog);
-        tvdepartment=(TextView)dialogswap.findViewById(R.id.tv_departmentDialog);
-        tvsemester=(TextView)dialogswap.findViewById(R.id.tv_semesterDialog);
-        tvsection=(TextView)dialogswap.findViewById(R.id.tv_sectionDialog);
-        tvblock=(TextView)dialogswap.findViewById(R.id.tv_blockDialog);
-        tvfloor=(TextView)dialogswap.findViewById(R.id.tv_floorDialog);
-        tvroomNo=(TextView)dialogswap.findViewById(R.id.tv_roomNoDialog);
-        tvassistingFaculty=(TextView)dialogswap.findViewById(R.id.tv_assistingFacultyDialog);
-        tvday=(TextView)dialogswap.findViewById(R.id.tv_dayDialog) ;
-        tvhour=(TextView)dialogswap.findViewById(R.id.tv_HourDialog);
-        acceptButton=(Button)dialogswap.findViewById(R.id.bv_swap);
-        acceptButton.setText("ACCEPT ");
-
-        //setting the contents of the dialog
-
-
-        tvcourseCode.setText(requestsDetails.get(position).getCourseCode());
-        tvCourseName.setText(requestsDetails.get(position).getCourseName());
-        tvdegree.setText(requestsDetails.get(position).getDegree());
-        tvdepartment.setText(requestsDetails.get(position).getDepartment());
-        tvsemester.setText(requestsDetails.get(position).getSemester());
-        tvsection.setText(requestsDetails.get(position).getSection());
-        tvblock.setText(requestsDetails.get(position).getBlock());
-        tvfloor.setText(requestsDetails.get(position).getFloor());
-        tvroomNo.setText(requestsDetails.get(position).getRoomNo());
-        tvassistingFaculty.setText(requestsDetails.get(position).getAssistingFaculty());
-        tvday.setText(requestsDetails.get(position).getDay());
-        tvhour.setText(requestsDetails.get(position).getHour());
-
-        db= FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        userID = mAuth.getCurrentUser().getUid();
-
-
-
-        acceptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogswap.dismiss();
-                onClickAcceptButton(position);
-
-
-
-            }
-        });
-
-
-    }
-    private void onClickAcceptButton(  int position)
-    {
-        final Dialog confirmdialog = new Dialog(getContext()); // Context, this, etc.
-        confirmdialog.setContentView(R.layout.dialog_confirmswap);
-        confirmdialog.show();
-        confirmButton=(Button)confirmdialog.findViewById(R.id.bv_confirmSwap);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "3RD ENTRY IN WHEN ACCEPT BUTTON IS CLICKED");
-                onClickConfirmButton(position);
-                confirmdialog.dismiss();
-                Toast.makeText(getContext(),"Swap Request Accepted Successfully",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }
-    private void onClickConfirmButton(  int position)
-    {
-        db.collection("Faculty").document(userID).collection("currentRequests").document(requestsNames.get(0).getFirstName()+""+requestsNames.get(0).getLastName()+" "+requestsDetails.get(0).getDay()+" "+requestsDetails.get(0).getHour()).set(requestsDetails.get(position));
-
-        Log.d(TAG, "PASSING OF REQUEST ID- DELETE STATEMENT DELETE FLAW 2"+requestsDetails.get(position).getRequestDocumentId());
-        //function call
-        deleteDocument(position);
-
-    }
-    private void deleteDocument(int position)
-    {
-
-        //deleting the document from the database
-        db.collection("Requests").document(requestsDetails.get(position).getRequestDocumentId())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "5TH ENTRY IN DELETION FROM REQUESTS DB");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
-
-    }
-
-
-
+//    private void onClickSwapRequest( int position)
+//    {
+//
+//        final Dialog dialogswap = new Dialog(getContext());
+//        dialogswap.setContentView(R.layout.dialog_swapslot);
+//        dialogswap.show();// Context, this, etc.
+//
+//
+//        tvcourseCode=(TextView) dialogswap.findViewById(R.id.tv_courseCodeDialog);
+//        tvCourseName=(TextView)dialogswap.findViewById(R.id.tv_courseNameDialog);
+//        tvdegree=(TextView)dialogswap.findViewById(R.id.tv_degreeDialog);
+//        tvdepartment=(TextView)dialogswap.findViewById(R.id.tv_departmentDialog);
+//        tvsemester=(TextView)dialogswap.findViewById(R.id.tv_semesterDialog);
+//        tvsection=(TextView)dialogswap.findViewById(R.id.tv_sectionDialog);
+//        tvblock=(TextView)dialogswap.findViewById(R.id.tv_blockDialog);
+//        tvfloor=(TextView)dialogswap.findViewById(R.id.tv_floorDialog);
+//        tvroomNo=(TextView)dialogswap.findViewById(R.id.tv_roomNoDialog);
+//        tvassistingFaculty=(TextView)dialogswap.findViewById(R.id.tv_assistingFacultyDialog);
+//        tvday=(TextView)dialogswap.findViewById(R.id.tv_dayDialog) ;
+//        tvhour=(TextView)dialogswap.findViewById(R.id.tv_HourDialog);
+//        acceptButton=(Button)dialogswap.findViewById(R.id.bv_swap);
+//        acceptButton.setText("ACCEPT ");
+//
+//        //setting the contents of the dialog
+//
+//
+//        tvcourseCode.setText(requestsDetails.get(position).getCourseCode());
+//        tvCourseName.setText(requestsDetails.get(position).getCourseName());
+//        tvdegree.setText(requestsDetails.get(position).getDegree());
+//        tvdepartment.setText(requestsDetails.get(position).getDepartment());
+//        tvsemester.setText(requestsDetails.get(position).getSemester());
+//        tvsection.setText(requestsDetails.get(position).getSection());
+//        tvblock.setText(requestsDetails.get(position).getBlock());
+//        tvfloor.setText(requestsDetails.get(position).getFloor());
+//        tvroomNo.setText(requestsDetails.get(position).getRoomNo());
+//        tvassistingFaculty.setText(requestsDetails.get(position).getAssistingFaculty());
+//        tvday.setText(requestsDetails.get(position).getDay());
+//        tvhour.setText(requestsDetails.get(position).getHour());
+//
+//        db= FirebaseFirestore.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
+//        userID = mAuth.getCurrentUser().getUid();
+//
+//
+//
+//        acceptButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialogswap.dismiss();
+//                onClickAcceptButton(position);
+//
+//
+//
+//
+//            }
+//        });
+//
+//
+//    }
+//    private void onClickAcceptButton( int position)
+//    {
+//        final Dialog confirmdialog = new Dialog(getContext()); // Context, this, etc.
+//        confirmdialog.setContentView(R.layout.dialog_confirmswap);
+//        confirmdialog.show();
+//        confirmButton=(Button)confirmdialog.findViewById(R.id.bv_confirmSwap);
+//        confirmButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(TAG, "3RD ENTRY IN WHEN ACCEPT BUTTON IS CLICKED");
+//                onClickConfirmButton(position);
+//                confirmdialog.dismiss();
+//                Toast.makeText(getContext(),"Swap Request Accepted Successfully",Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//
+//    }
+//    private void onClickConfirmButton(int position)
+//    {
+//        db.collection("Faculty").document(userID).collection("currentRequests").document(requestsNames.get(0).getFirstName()+""+requestsNames.get(0).getLastName()+" "+requestsDetails.get(0).getDay()+" "+requestsDetails.get(0).getHour()).set(requestsDetails.get(position));
+//
+//        Log.d(TAG, "PASSING OF REQUEST ID- DELETE STATEMENT DELETE FLAW 2"+requestsDetails.get(position).getRequestDocumentId());
+//        //function call
+//        deleteDocument(position);
+//
+//    }
+//    private void deleteDocument(int position)
+//    {
+//
+//        //deleting the document from the database
+//        db.collection("Requests").document(requestsNames.get(position).getFirstName()+" "+requestsNames.get(position).getLastName()+" "+requestsDetails.get(position).getDay()+" "+requestsDetails.get(position).getHour())
+//                .delete()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "5TH ENTRY IN DELETION FROM REQUESTS DB");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error deleting document", e);
+//                    }
+//                });
+//
+//    }
+//
+//
+//
 
 }

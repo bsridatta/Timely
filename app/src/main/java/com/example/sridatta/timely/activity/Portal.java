@@ -70,6 +70,7 @@ public class Portal extends AppCompatActivity {
         setContentView(R.layout.activity_portal);
 
 
+
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -171,6 +172,11 @@ public class Portal extends AppCompatActivity {
             case R.id.signOut:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this,Login.class));
+                break;
+
+            case R.id.editexcelsheet:
+                Intent excelIntent = new Intent(this, Excel.class);
+                startActivity(excelIntent);
                 break;
 
 
