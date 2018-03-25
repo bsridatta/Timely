@@ -51,8 +51,8 @@ android {
 //        exclude 'META-INF/LICENSE.txt'
 //    }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     testCompile 'junit:junit:4.12'
-//    implementation files('libs/poi-3.12-android-a.jar')
+    //    implementation files('libs/poi-3.12-android-a.jar')
 }
 
 

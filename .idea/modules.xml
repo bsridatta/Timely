@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Timely.iml" filepath="$PROJECT_DIR$/Timely.iml" />
+      <module fileurl="file://C:\Users\Home\Documents\GitHub\Timely_final2\Timely.iml" filepath="C:\Users\Home\Documents\GitHub\Timely_final2\Timely.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Timely_final2.iml" filepath="$PROJECT_DIR$/Timely_final2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Home\Documents\GitHub\Timely_final2\app\app.iml" filepath="C:\Users\Home\Documents\GitHub\Timely_final2\app\app.iml" />
     </modules>
   </component>
 </project>

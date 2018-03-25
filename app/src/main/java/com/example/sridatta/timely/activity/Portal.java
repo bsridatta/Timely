@@ -61,6 +61,8 @@ public class Portal extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
+    private final String TAG=Portal.class.getSimpleName();
+
 
 
 
@@ -218,6 +220,7 @@ public class Portal extends AppCompatActivity {
                     public void onClick(View v) {
 
                         //code
+                        gotoOtherUser();
                     }
                 });
                 ibCancel.setOnClickListener(new View.OnClickListener() {
@@ -233,6 +236,17 @@ public class Portal extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void gotoOtherUser(){
+
+        Log.i(TAG,"going to other user");
+        // Bundle bundle=new Bundle();
+        // bundle.putString("userID",actvFacultySearch.getText().toString());
+        Intent i=new Intent(Portal.this,OtherUserActivity.class);
+        // intentBundle.putExtras(bundle);
+        i.putExtra("userID",actvFacultySearch.getText().toString());
+        startActivity(i);
     }
 
     //setting up the pager view under each tabs and naming the tabs
@@ -285,7 +299,7 @@ public class Portal extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
 
             //making it null so only icons are there
-                  return null;
+            return null;
         }
 
 

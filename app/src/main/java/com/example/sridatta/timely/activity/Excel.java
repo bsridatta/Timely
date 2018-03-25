@@ -84,13 +84,13 @@ public class Excel extends AppCompatActivity {
 
         //need to check the permissions
         checkFilePermissions();
+        toastMessage(" double tap the file to confirm");
 
         lvInternalStorage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 lastDirectory = pathHistory.get(count);
                 if(lastDirectory.equals(adapterView.getItemAtPosition(i))){
-                    toastMessage("Click twice for confirmation");
                     Log.d(TAG, "lvInternalStorage: Selected a file for upload: " + lastDirectory);
                     if(new File(lastDirectory).getName().endsWith(".xlsx"))
                         readExcelData(lastDirectory);
@@ -240,164 +240,164 @@ public class Excel extends AppCompatActivity {
 
 
 
-            XSSFSheet sheet=wb.getSheetAt(0);
-            int rowStart=sheet.getFirstRowNum()+4;
-            int rowEnd=sheet.getLastRowNum();
+        XSSFSheet sheet=wb.getSheetAt(0);
+        int rowStart=sheet.getFirstRowNum()+4;
+        int rowEnd=sheet.getLastRowNum();
 
 
-            final int[] counter = {0};
+        final int[] counter = {0};
 
 
 
-            ArrayList<LectureSlot> slotArray = new ArrayList<>();
+        ArrayList<LectureSlot> slotArray = new ArrayList<>();
 
-            //System.out.println(rowStart+" "+rowEnd);
-            Log.d(TAG,"Row Start is "+ rowStart+" and RoW END"+rowEnd);
+        //System.out.println(rowStart+" "+rowEnd);
+        Log.d(TAG,"Row Start is "+ rowStart+" and RoW END"+rowEnd);
 
-            for(int i=rowStart;i<=rowEnd;i++) {
+        for(int i=rowStart;i<=rowEnd;i++) {
 
-                XSSFRow row=sheet.getRow(i);
-                //System.out.println((row.getFirstCellNum()+1)+" "+(row.getLastCellNum()-1));
-                Log.d(TAG,"column start "+(row.getFirstCellNum()+1)+ "column end is "+(row.getLastCellNum()-1));
+            XSSFRow row=sheet.getRow(i);
+            //System.out.println((row.getFirstCellNum()+1)+" "+(row.getLastCellNum()-1));
+            Log.d(TAG,"column start "+(row.getFirstCellNum()+1)+ "column end is "+(row.getLastCellNum()-1));
 
-                for(int j=row.getFirstCellNum()+1;j<=(row.getLastCellNum()-1);j++) {
+            for(int j=row.getFirstCellNum()+1;j<=(row.getLastCellNum()-1);j++) {
 
-                    int gridSize=1,freecheck=0;
-                    String tempvar;
-
-
-                    LectureSlot tempSlot;
-
-                    XSSFCell cell= row.getCell(j);
-                    String a = Integer.toString(i-rowStart+1);
-                    String b = Integer.toString(j);
-
-                    //push with custom id
-                    String collectionName =a+" row "+b+" column "+ day.get(a) + " " + hour.get(b);
-                    Log.d(TAG,"the value of i and j are respectively "+i+" "+j+" cell.getStringCellValue "+cell.getStringCellValue());
-                    XSSFColor bgColor = cell.getCellStyle().getFillForegroundColorColor();
-                    Log.d(TAG,"BEFORE"+cell.getStringCellValue()+"AFTER"+i+j);
-                    Log.d(TAG,"FIRST CHECK  at "+i+" and "+j+" is ");
+                int gridSize=1,freecheck=0;
+                String tempvar;
 
 
-                    if(bgColor== null || bgColor.getARGBHex().equals("FFFFFFFF") || bgColor.getARGBHex().equals("#FFFFFFFF"))
+                LectureSlot tempSlot;
+
+                XSSFCell cell= row.getCell(j);
+                String a = Integer.toString(i-rowStart+1);
+                String b = Integer.toString(j);
+
+                //push with custom id
+                String collectionName =a+" row "+b+" column "+ day.get(a) + " " + hour.get(b);
+                Log.d(TAG,"the value of i and j are respectively "+i+" "+j+" cell.getStringCellValue "+cell.getStringCellValue());
+                XSSFColor bgColor = cell.getCellStyle().getFillForegroundColorColor();
+                Log.d(TAG,"BEFORE"+cell.getStringCellValue()+"AFTER"+i+j);
+                Log.d(TAG,"FIRST CHECK  at "+i+" and "+j+" is ");
+
+
+                if(bgColor== null || bgColor.getARGBHex().equals("FFFFFFFF") || bgColor.getARGBHex().equals("#FFFFFFFF"))
+                {
+                    if (cell.getStringCellValue().equalsIgnoreCase("") ||cell.getStringCellValue().equalsIgnoreCase("")|| cell.getStringCellValue().equals(NULL))
                     {
-                        if (cell.getStringCellValue().equalsIgnoreCase("") ||cell.getStringCellValue().equalsIgnoreCase("")|| cell.getStringCellValue().equals(NULL))
-                        {
-                            // This cell is for free period
-                            freecheck=1;
-                            Log.d(TAG," free period at "+i+j);
-                            tempSlot=new LectureSlot("","","","",""," FREE ","","","","","","","#FFFFFF");
+                        // This cell is for free period
+                        freecheck=1;
+                        Log.d(TAG," free period at "+i+j);
+                        tempSlot=new LectureSlot("","","","",""," FREE ","","","","","","","#FFFFFF");
 
-                        }
-                        else {
-                            // normal hour
-                            Log.d(TAG, "this has no background colour"+i+j);
-                            tempSlot = split(cell.getStringCellValue());
-                            tempSlot.setColorOfTheSlot("#FFFFFF");
-                        }
-                        //just for avoiding an error. it wont be used for this case
-                        tempvar=tempSlot.getCourseName();
                     }
                     else {
-                        String str =bgColor.getARGBHex();
-                        // this is for one cell occupying colored things like TAG
-
-
-                        tempSlot=split(cell.getStringCellValue());
-                        tempvar=tempSlot.getCourseName();
+                        // normal hour
+                        Log.d(TAG, "this has no background colour"+i+j);
+                        tempSlot = split(cell.getStringCellValue());
                         tempSlot.setColorOfTheSlot("#FFFFFF");
+                    }
+                    //just for avoiding an error. it wont be used for this case
+                    tempvar=tempSlot.getCourseName();
+                }
+                else {
+                    String str =bgColor.getARGBHex();
+                    // this is for one cell occupying colored things like TAG
+
+
+                    tempSlot=split(cell.getStringCellValue());
+                    tempvar=tempSlot.getCourseName();
+                    tempSlot.setColorOfTheSlot("#FFFFFF");
 //                        if(cell.getStringCellValue() == "" || cell.getStringCellValue() ==" ")
 //                            tempSlot=new LectureSlot("","","","",""," FREE ","","","","","","");
 //                        else
 //                            tempSlot=split(cell.getStringCellValue());
 //
-                        Log.d(TAG,"the back ground colour at "+i+" and "+j+" is "+str);
-                        if(bgColor.getARGBHex().equals("FFC0504D"))
-                        {
-                            //this is for merged cells
-                            gridSize=2;
-                            tempSlot.setColorOfTheSlot("#FFFF99");
+                    Log.d(TAG,"the back ground colour at "+i+" and "+j+" is "+str);
+                    if(bgColor.getARGBHex().equals("FFC0504D"))
+                    {
+                        //this is for merged cells
+                        gridSize=2;
+                        tempSlot.setColorOfTheSlot("#FFFF99");
 
-                            //                       tempSlot=new LectureSlot("","","","","","","","","","","","");
-                        }
-
+                        //                       tempSlot=new LectureSlot("","","","","","","","","","","","");
                     }
-                    if(cell.getStringCellValue().split("\\r?\\n").length==1 && freecheck==0){
-
-                        tempSlot.setDepartment(tempSlot.getCourseName());
-                        tempSlot.setCourseName("");
-                    }
-                   //Log.d(TAG,"-----------------------------------------------------------");
-                    slotArray.add(tempSlot);
-
-
-
-                    Log.d(TAG, "document id of the lecture slot is "+day.get(a) + hour.get(b));
-                    db = FirebaseFirestore.getInstance();
-                    mAuth = FirebaseAuth.getInstance();
-                    String userID = mAuth.getCurrentUser().getUid();
-                    tempSlot.setDay(day.get(a));
-                    tempSlot.setHour(hour.get(b));
-
-
-                       //updating to database
-                    db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName)
-                               .set(tempSlot)
-                               .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                   @Override
-                                   public void onSuccess(Void aVoid) {
-                                       Log.d(TAG, "Time Table DocumentSnapshot written with ID: "+collectionName);
-                                       counter[0] = counter[0] +1;
-                                       Log.d(TAG,"the value of counter[0] is "+ String.valueOf(counter[0]));
-
-                                   }
-                               })
-                               .addOnFailureListener(new OnFailureListener() {
-                                   @Override
-                                   public void onFailure(@NonNull Exception e) {
-                                       Log.w(TAG, "Error writing document", e);
-                                   }
-                               });
-
-                    if(gridSize==2)
-                   {
-                       j++;
-                       String a1 = Integer.toString(i-rowStart+1);
-                       String b1 = Integer.toString(j);
-
-                       //push with custom id
-                       String collectionName1 =a1+" row "+b1+" column "+ day.get(a1) + " " + hour.get(b1);
-                       //updating to database
-                       db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName1)
-                               .set(new LectureSlot(day.get(a1),hour.get(b1),"","","",tempvar,"","","","","","","#FFFF99"))
-                               .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                   @Override
-                                   public void onSuccess(Void aVoid) {
-                                       Log.d(TAG, "Time Table DocumentSnapshot written with ID: "+collectionName);
-                                       counter[0] = counter[0] +1;
-                                       Log.d(TAG,"the value of counter[0] is "+ String.valueOf(counter[0]));
-
-                                   }
-                               })
-                               .addOnFailureListener(new OnFailureListener() {
-                                   @Override
-                                   public void onFailure(@NonNull Exception e) {
-                                       Log.w(TAG, "Error writing document", e);
-                                   }
-                               });
-
-
-
-                   }
 
                 }
-                Log.d(TAG,"-------------------------------------------");
+                if(cell.getStringCellValue().split("\\r?\\n").length==1 && freecheck==0){
+
+                    tempSlot.setDepartment(tempSlot.getCourseName());
+                    tempSlot.setCourseName("");
+                }
+                //Log.d(TAG,"-----------------------------------------------------------");
+                slotArray.add(tempSlot);
+
+
+
+                Log.d(TAG, "document id of the lecture slot is "+day.get(a) + hour.get(b));
+                db = FirebaseFirestore.getInstance();
+                mAuth = FirebaseAuth.getInstance();
+                String userID = mAuth.getCurrentUser().getUid();
+                tempSlot.setDay(day.get(a));
+                tempSlot.setHour(hour.get(b));
+
+
+                //updating to database
+                db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName)
+                        .set(tempSlot)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Time Table DocumentSnapshot written with ID: "+collectionName);
+                                counter[0] = counter[0] +1;
+                                Log.d(TAG,"the value of counter[0] is "+ String.valueOf(counter[0]));
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+                if(gridSize==2)
+                {
+                    j++;
+                    String a1 = Integer.toString(i-rowStart+1);
+                    String b1 = Integer.toString(j);
+
+                    //push with custom id
+                    String collectionName1 =a1+" row "+b1+" column "+ day.get(a1) + " " + hour.get(b1);
+                    //updating to database
+                    db.collection("Faculty").document(userID).collection("TimeTable").document(collectionName1)
+                            .set(new LectureSlot(day.get(a1),hour.get(b1),"","","",tempvar,"","","","","","","#FFFF99"))
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "Time Table DocumentSnapshot written with ID: "+collectionName);
+                                    counter[0] = counter[0] +1;
+                                    Log.d(TAG,"the value of counter[0] is "+ String.valueOf(counter[0]));
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+
+
+                }
 
             }
-            Intent i=new Intent(this,Portal.class);
-            startActivity(i);
-            toastMessage("Time Table added to your account");
+            Log.d(TAG,"-------------------------------------------");
+
+        }
+        Intent i=new Intent(this,Portal.class);
+        startActivity(i);
+        toastMessage("Time Table added to your account");
 
 
 
@@ -437,7 +437,7 @@ public class Excel extends AppCompatActivity {
                 switch(flag) {
 
                     case 0:
-                            slot.setCourseCode(arr[i]);
+                        slot.setCourseCode(arr[i]);
                         //System.out.println(flag+arr[i]+" ");
                         Log.d(TAG,"the value of flag and arr[i]"+flag+arr[i]);
                         flag++;
@@ -458,9 +458,9 @@ public class Excel extends AppCompatActivity {
                         slot.setDepartment(temp1[1]);
                         slot.setSemester(temp1[2]);
                         if(temp1.length==3)
-                        slot.setSection("");
+                            slot.setSection("");
                         else
-                        slot.setSection(temp1[3]);
+                            slot.setSection(temp1[3]);
                         flag++;
                         break;
 
@@ -488,7 +488,7 @@ public class Excel extends AppCompatActivity {
                 }
             }
         }
-            return slot;
+        return slot;
 
     }
 }
