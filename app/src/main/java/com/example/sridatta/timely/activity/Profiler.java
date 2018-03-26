@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,20 +67,19 @@ public class Profiler extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
+        Log.d("Profiler","inside profiler activity ");
         userID = mAuth.getCurrentUser().getUid();
         userFaculty=new ArrayList<>();
-        facultyDepartment=(TextView) findViewById(R.id.tv_department);
         facultyName=(TextView) findViewById(R.id.tv_name);
+        facultyDepartment=(TextView) findViewById(R.id.tv_department);
 
-
-        db.collection("Faculty").document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        DocumentReference docRef=db.collection("Faculty").document(userID);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Faculty faculty = documentSnapshot.toObject(Faculty.class);
-                displayNameAndDept(faculty);
-
-
+                facultyName.setText(faculty.getFirstName()+" "+faculty.getLastName());
+                facultyDepartment.setText(faculty.getDepartment());
             }
         });
 
@@ -124,23 +124,8 @@ public class Profiler extends AppCompatActivity {
 
         userID=FirebaseAuth.getInstance().getUid();
 
-        // / retrieve the data using keyName
-        //firestore
-//        // Access a Cloud Firestore instance from your Activity
-
-
-
         FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
-    public void displayNameAndDept(Faculty faculty)
-    {
-        userFaculty.add(faculty);
-        facultyName.setText(userFaculty.get(0).getFirstName()+" "+userFaculty.get(0).getLastName());
-        facultyDepartment.setText(userFaculty.get(0).getDepartment());
-
-
-    }
-
 
     public String getUserID() {
         return userID;
@@ -194,6 +179,7 @@ public class Profiler extends AppCompatActivity {
                 startActivity(homeIntent);
                 break;
             case R.id.action_item_search:
+                Log.i(TAG,"searching users");
                 toolbar.setVisibility(View.GONE);
                 actvFacultySearch.setVisibility(View.VISIBLE);
                 ibSearch.setVisibility(View.VISIBLE);
@@ -209,10 +195,10 @@ public class Profiler extends AppCompatActivity {
                                     for (DocumentSnapshot document : task.getResult()) {
                                         Faculty faculty=document.toObject(Faculty.class);
                                         facultyNames.add(faculty.getFirstName()+" "+faculty.getLastName());
-                                        //Log.d(TAG, document.getId() + " => " + document.getData());
+                                        Log.i(TAG, document.getId() + " => " + document.getData());
                                     }
                                 } else {
-                                    //Log.d(TAG, "Error getting documents: ", task.getException());
+                                    Log.i(TAG, "Error getting documents: ", task.getException());
                                 }
                             }
                         });
@@ -224,15 +210,7 @@ public class Profiler extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-
-                        //code
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("label", actvFacultySearch.getText().toString());
-//                        OtherProfileFragment fragobj = new OtherProfileFragment();
-//                        fragobj.setArguments(bundle);
-//                        gotoOtherUser();
-
-
+                        gotoOtherUser();
 
                     }
                 });
@@ -255,9 +233,15 @@ public class Profiler extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void gotoOtherUser(){
+
+        Log.i(TAG,"going to other user");
+        // Bundle bundle=new Bundle();
+        // bundle.putString("userID",actvFacultySearch.getText().toString());
         Intent i=new Intent(Profiler.this,OtherUserActivity.class);
-        // i.putExtra("label",actvFacultySearch.getText().toString());
+        // intentBundle.putExtras(bundle);
+        i.putExtra("userID",actvFacultySearch.getText().toString());
         startActivity(i);
     }
 

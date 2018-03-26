@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.sridatta.timely.R;
 import com.example.sridatta.timely.fragment_other_user.OtherProfileFragment;
+import com.example.sridatta.timely.fragment_other_user.OtherTimeTableFragment;
 import com.example.sridatta.timely.fragment_profiler.ProfileFragment;
 import com.example.sridatta.timely.fragment_profiler.ReceivedRequestsFragment;
 import com.example.sridatta.timely.fragment_profiler.SentRequestsFragment;
@@ -44,6 +46,7 @@ public class OtherUserActivity extends AppCompatActivity {
 
     private String userID;
     private FirebaseAuth mAuth;
+    private String name;
 
 
     @Override
@@ -55,9 +58,8 @@ public class OtherUserActivity extends AppCompatActivity {
         userID = mAuth.getCurrentUser().getUid();
 
 
-
-
-
+        name=getIntent().getExtras().getString("userID");
+        Log.i(TAG,name);
 
         //pager setup
         viewPager = (ViewPager) findViewById(R.id.other_viewpager);
@@ -69,16 +71,7 @@ public class OtherUserActivity extends AppCompatActivity {
         tabLayout.setElevation(4.0f);
         setupTabIcons();
 
-
-        //can pass as extra or  get with firebase auth
-//        Bundle extras = getIntent().getExtras();
-
-//        if (extras != null) {
-//            userID = extras.getString("userID");
-//            // and get whatever type user account id is
-//        }
-//
-//        userID=FirebaseAuth.getInstance().getUid();
+        userID=FirebaseAuth.getInstance().getUid();
 
     }
 
@@ -99,12 +92,14 @@ public class OtherUserActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         OtherUserActivity.ViewPagerAdapter adapter = new OtherUserActivity.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new OtherProfileFragment(), " USER PROFILE");
+        adapter.addFrag(new OtherTimeTableFragment(),"USER TIMETABLE");
         //adapter.addFrag(new SentRequestsFragment(), "SENT REQUESTS");
         viewPager.setAdapter(adapter);
     }
     //function to set icons
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_face);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_developer_board);
     }
 
     // Page viewer adapter

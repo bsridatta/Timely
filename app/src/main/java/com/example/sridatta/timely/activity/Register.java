@@ -191,8 +191,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     public void signUp() {
 
         //get the user data
-        firstName= tiFirstName.getText().toString();
-        lastName= tiLastName.getText().toString();
+        firstName= tiFirstName.getText().toString().replaceAll("\\s+","");
+        lastName= tiLastName.getText().toString().replaceAll("\\s+","");
         emailID= etEmailId.getText().toString();
         password= etPassword.getText().toString();
         phoneNumber= etPhoneNumber.getText().toString();
