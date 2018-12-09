@@ -1,5 +1,7 @@
 ## Timely
 
+```
+Timely
 ├── app
 │   ├── build.gradle
 │   ├── google-services.json
@@ -84,5 +86,5 @@
 ├── gradle.properties
 ├── README.md
 └── settings.gradle
-
+```
 
