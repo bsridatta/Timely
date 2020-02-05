@@ -1,6 +1,6 @@
 ## Timely
 
-
+![](https://github.com/bsridatta/Timely/blob/master/profile_page.jpg)
 ```
 Timely (Removed a huge chunk but this is the main part of the tree
 ├── app
