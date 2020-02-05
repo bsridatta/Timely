@@ -1,6 +1,13 @@
 ## Timely
 
-![](https://github.com/bsridatta/Timely/blob/master/profile_page.jpg)
+<img src="https://github.com/bsridatta/Timely/blob/master/profile_page.jpg" width="250" align="left">
+ 
+ 
+App directory
+
+
+
+
 ```
 Timely (Removed a huge chunk but this is the main part of the tree
 ├── app
